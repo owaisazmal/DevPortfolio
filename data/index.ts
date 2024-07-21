@@ -219,3 +219,4 @@ export const navItems = [
       link: "https://www.linkedin.com/in/owais-khan-266492222/"
     },
   ];
+  
