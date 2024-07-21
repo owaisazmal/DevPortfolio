@@ -181,8 +181,8 @@ export const navItems = [
     },
     {
       id: 2,
-      title: "Mobile App Dev - JSM Tech",
-      desc: "Designed and developed mobile app for both iOS & Android platforms using React Native.",
+      title: "Jr. Java Developer - AHC Tech",
+      desc: " Involved in DevOps migration/automation processes for build and deploy systems.",
       className: "md:col-span-2", // change to md:col-span-2
       thumbnail: "/exp2.svg",
     },
@@ -206,13 +206,16 @@ export const navItems = [
     {
       id: 1,
       img: "/git.svg",
+      link: "https://github.com/owaisazmal"
     },
     {
       id: 2,
       img: "/twit.svg",
+      link: ""
     },
     {
       id: 3,
       img: "/link.svg",
+      link: "https://www.linkedin.com/in/owais-khan-266492222/"
     },
   ];
