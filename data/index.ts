@@ -1,7 +1,7 @@
 export const navItems = [
     { name: "About", link: "#about" },
     { name: "Projects", link: "#projects" },
-    { name: "Testimonials", link: "#testimonials" },
+    { name: "Work Experience", link: "#workExperience" },
     { name: "Contact", link: "#contact" },
   ];
   
@@ -77,7 +77,7 @@ export const navItems = [
       des: "An app built with SwiftUI and SwiftUICharts, designed to help users track expenses and visualize spending habits.",
       img: "/exptrkr.png",
       iconLists: ["/swift.svg", "/xcode.svg", "/nucleus.svg", "/chart.svg", "/git.svg"],
-      link: "https://github.com/adrianhajdin?tab=repositories",
+      link: "https://github.com/owaisazmal/ExpenseTracker",
     },
     {
       id: 2,
@@ -85,7 +85,7 @@ export const navItems = [
       des: "A sleek, powerful, and intuitive text editor designed to elevate your writing experience. ",
       img: "/Scribe.png",
       iconLists: ["/swift.svg", "/xcode.svg", "/ts.svg", "/stream.svg", "/c.svg"],
-      link: "https://github.com/adrianhajdin/zoom-clone",
+      link: "https://github.com/owaisazmal/Swift-Scribe",
     },
     {
       id: 3,
@@ -93,7 +93,7 @@ export const navItems = [
       des: "This is a web application that detects faces in real-time using the face-api.js library.",
       img: "/FaceDet.png",
       iconLists: ["/html-5-svgrepo-com.svg", "/api.svg", "/js-svgrepo-com.svg", "/face-detection.svg", "/c.svg"],
-      link: "https://github.com/adrianhajdin/ai_saas_app",
+      link: "https://github.com/owaisazmal/Face-Detection",
     },
     {
       id: 4,
@@ -101,7 +101,7 @@ export const navItems = [
       des: "This app demonstrates the use of SwiftUI to create a weather information interface. It provides a list of daily weather forecasts.",
       img: "/weather.png",
       iconLists: ["/swift.svg", "/xcode.svg", "/ts.svg", "/api.svg", "/gsap.svg"],
-      link: "https://github.com/adrianhajdin/iphone",
+      link: "https://github.com/owaisazmal/WeatherUtil",
     },
   ];
   
@@ -174,8 +174,8 @@ export const navItems = [
   export const workExperience = [
     {
       id: 1,
-      title: "Frontend Engineer Intern",
-      desc: "Assisted in the development of a web-based platform using React.js, enhancing interactivity.",
+      title: "iOS Developer - CSU, Northridge",
+      desc: "Assisted in the development of a mobile app using Swift, enhancing interactivity.",
       className: "md:col-span-2",
       thumbnail: "/exp1.svg",
     },
@@ -186,20 +186,20 @@ export const navItems = [
       className: "md:col-span-2", // change to md:col-span-2
       thumbnail: "/exp2.svg",
     },
-    {
-      id: 3,
-      title: "Freelance App Dev Project",
-      desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-      className: "md:col-span-2", // change to md:col-span-2
-      thumbnail: "/exp3.svg",
-    },
-    {
-      id: 4,
-      title: "Lead Frontend Developer",
-      desc: "Developed and maintained user-facing features using modern frontend technologies.",
-      className: "md:col-span-2",
-      thumbnail: "/exp4.svg",
-    },
+    // {
+    //   id: 3,
+    //   title: "Freelance App Dev Project",
+    //   desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
+    //   className: "md:col-span-2", // change to md:col-span-2
+    //   thumbnail: "/exp3.svg",
+    // },
+    // {
+    //   id: 4,
+    //   title: "Lead Frontend Developer",
+    //   desc: "Developed and maintained user-facing features using modern frontend technologies.",
+    //   className: "md:col-span-2",
+    //   thumbnail: "/exp4.svg",
+    // },
   ];
   
   export const socialMedia = [
