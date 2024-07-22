@@ -14,15 +14,15 @@ const RecentProjects = () => {
         <span className="text-purple">recent projects</span>
       </h1>
       <div className="flex flex-wrap items-center justify-center p-4 gap-x-24 gap-y-8 mt-10">
-        {projects.map((item) => (
+        {projects.map(({id, title, des, img, iconLists, link}) => (
           <div
             className="sm:h-[41rem] lg:min-h-[32.5rem] h-[32rem] flex items-center justify-center sm:w-[570px] w-[80vw]"
-            key={item.id}
+            key={id}
             //1:39:20
           >
             <PinContainer
-              title="GitHub"
-              href="/https://github.com/owaisazmal"
+              title={link}
+              href={link}
             >
               <div className="relative flex items-center justify-center sm:w-[570px] w-[80vw] overflow-hidden sm:h-[40vh] h-[30vh] mb-10">
                 <div
@@ -32,14 +32,14 @@ const RecentProjects = () => {
                   <img src="/bg.png" alt="bgimg" />
                 </div>
                 <img
-                  src={item.img}
+                  src={img}
                   alt="cover"
                   className="z-10 absolute bottom-0"
                 />
               </div>
 
               <h1 className="font-bold lg:text-2xl md:text-xl text-base line-clamp-1">
-                {item.title}
+                {title}
               </h1>
 
               <p
@@ -49,12 +49,12 @@ const RecentProjects = () => {
                   margin: "1vh 0",
                 }}
               >
-                {item.des}
+                {des}
               </p>
 
               <div className="flex items-center justify-between mt-7 mb-3">
                 <div className="flex items-center">
-                  {item.iconLists.map((icon, index) => (
+                  {iconLists.map((icon, index) => (
                     <div
                       key={index}
                       className="border border-white/[.2] rounded-full bg-black lg:w-10 lg:h-10 w-8 h-8 flex justify-center items-center"

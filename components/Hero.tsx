@@ -26,20 +26,21 @@ const Hero = () => {
     <div className="flex justify-center relative my-20 z-10">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            A Computer Science Sudent at California State University, Northridge.
+            
+            Hi, I&apos;m Owais
           </p>
             <TextGenerateEffect 
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
             words="Building Intuitive iOS Apps with Precision and Passion."
             />
-
-            <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-                Hi, I&apos;m Owais
+          <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80 mb-4">
+            {/* <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl"> */}
+            A Computer Science Sudent at California State University, Northridge.
             </p>
 
-            <a href="#about">
+            <a href="https://drive.google.com/file/d/1SMRXeFmmq-wsRhN5lLLi9LWa6JDzymqI/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <MagicButton
-                title = "Show my Work"
+                title = "Resume"
                 icon = {<FaLocationArrow />}
                 position='right'
                 />
