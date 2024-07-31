@@ -208,11 +208,11 @@ export const navItems = [
       img: "/git.svg",
       link: "https://github.com/owaisazmal"
     },
-    {
-      id: 2,
-      img: "/twit.svg",
-      link: ""
-    },
+    // {
+    //   id: 2,
+    //   img: "/twit.svg",
+    //   link: ""
+    // },
     {
       id: 3,
       img: "/link.svg",
