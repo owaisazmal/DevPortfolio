@@ -68,7 +68,7 @@ export const navItems = [
       spareImg: "",
     },
   ];
-  
+
   // Make changes here for projects 
   
   export const projects = [
@@ -176,14 +176,14 @@ export const navItems = [
     {
       id: 1,
       title: "iOS Developer - CSU, Northridge",
-      desc: "Assisted in the development of a mobile app using Swift, enhancing interactivity.",
+      desc: "Assisted in the development of a mobile app using Swift, enhancing interactivity.|Maintained and updated existing applications to improve functionality.|Implement user interface designs using UIKit, Interface Builder, and SwiftUI, ensuring a seamless user experience.|Assist in preparing technical documentation, including user guides and development manuals, to support application deployment and usage.",
       className: "md:col-span-2",
       thumbnail: "/exp1.svg",
     },
     {
       id: 2,
       title: "Jr. Java Developer - AHC Tech",
-      desc: " Involved in DevOps migration/automation processes for build and deploy systems.",
+      desc: "Involved in DevOps migration/automation processes for build and deploy systems.|Developed webpages using HTML5, CSS3, and JavaScript.|Tested applications on multiple devices to ensure compatibility standards.|Environment: AWS, Azure, Azure Devops, Maven, Git, MS SQL, Java/J2EE Technologies.",
       className: "md:col-span-2", // change to md:col-span-2
       thumbnail: "/exp2.svg",
     },
