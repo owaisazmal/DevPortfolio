@@ -68,6 +68,7 @@ export const navItems = [
       spareImg: "",
     },
   ];
+  
   // Make changes here for projects 
   
   export const projects = [
