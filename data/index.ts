@@ -13,7 +13,7 @@ export const navItems = [
       className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
       imgClassName: "w-full h-full",
       titleClassName: "justify-end",
-      img: "/b1.svg",
+      img: "./b1.svg",
       spareImg: "",
     },
     {
@@ -44,7 +44,7 @@ export const navItems = [
       imgClassName: "",
       titleClassName: "justify-start",
       img: "/grid.svg",
-      spareImg: "/b4.svg",
+      spareImg: "./b4.svg",
     },
   
     {
@@ -54,8 +54,8 @@ export const navItems = [
       className: "md:col-span-3 md:row-span-2",
       imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
       titleClassName: "justify-center md:justify-start lg:justify-center",
-      img: "/b5.svg",
-      spareImg: "/grid.svg",
+      img: "./b5.svg",
+      spareImg: "./grid.svg",
     },
     {
       id: 6,
@@ -77,31 +77,31 @@ export const navItems = [
       title: "Expense Tracker",
       des: "An app built with SwiftUI and SwiftUICharts, designed to help users track expenses and visualize spending habits.",
       img: "./ExpTrkr.png",
-      iconLists: ["/swift.svg", "/xcode.svg", "/nucleus.svg", "/chart.svg", "/git.svg"],
+      iconLists: ["./swift.svg", "./xcode.svg", "./nucleus.svg", ".chart.svg", "./git.svg"],
       link: "https://github.com/owaisazmal/ExpenseTracker",
     },
     {
       id: 2,
       title: "Swift Scribe - Notes App",
       des: "A sleek, powerful, and intuitive text editor designed to elevate your writing experience. ",
-      img: "/Scribe.png",
-      iconLists: ["/swift.svg", "/xcode.svg", "/ts.svg", "/stream.svg", "/c.svg"],
+      img: "./Scribe.png",
+      iconLists: ["./swift.svg", "./xcode.svg", "./ts.svg", "./stream.svg", "./c.svg"],
       link: "https://github.com/owaisazmal/Swift-Scribe",
     },
     {
       id: 3,
       title: "Face Detection - Emotion Detector",
       des: "This is a web application that detects faces in real-time using the face-api.js library.",
-      img: "/FaceDet.png",
-      iconLists: ["/html-5-svgrepo-com.svg", "/api.svg", "/js-svgrepo-com.svg", "/face-detection.svg", "/c.svg"],
+      img: "./FaceDet.png",
+      iconLists: ["./html-5-svgrepo-com.svg", "./api.svg", "./js-svgrepo-com.svg", "./face-detection.svg", "./c.svg"],
       link: "https://github.com/owaisazmal/Face-Detection",
     },
     {
       id: 4,
       title: "Weather Util",
       des: "This app demonstrates the use of SwiftUI to create a weather information interface. It provides a list of daily weather forecasts.",
-      img: "/Weather.png",
-      iconLists: ["/swift.svg", "/xcode.svg", "/ts.svg", "/api.svg", "/gsap.svg"],
+      img: "./Weather.png",
+      iconLists: ["./swift.svg", "./xcode.svg", "./ts.svg", "./api.svg", "./gsap.svg"],
       link: "https://github.com/owaisazmal/WeatherUtil",
     },
   ];
@@ -143,32 +143,32 @@ export const navItems = [
     {
       id: 1,
       name: "cloudinary",
-      img: "/cloud.svg",
-      nameImg: "/cloudName.svg",
+      img: "./cloud.svg",
+      nameImg: "./cloudName.svg",
     },
     {
       id: 2,
       name: "appwrite",
-      img: "/app.svg",
-      nameImg: "/appName.svg",
+      img: "./app.svg",
+      nameImg: "./appName.svg",
     },
     {
       id: 3,
       name: "HOSTINGER",
-      img: "/host.svg",
-      nameImg: "/hostName.svg",
+      img: "./host.svg",
+      nameImg: "./hostName.svg",
     },
     {
       id: 4,
       name: "stream",
-      img: "/s.svg",
-      nameImg: "/streamName.svg",
+      img: "./s.svg",
+      nameImg: "./streamName.svg",
     },
     {
       id: 5,
       name: "docker.",
-      img: "/dock.svg",
-      nameImg: "/dockerName.svg",
+      img: "./dock.svg",
+      nameImg: "./dockerName.svg",
     },
   ];
   
@@ -178,14 +178,14 @@ export const navItems = [
       title: "iOS Developer - CSU, Northridge",
       desc: "Assisted in the development of a mobile app using Swift, enhancing interactivity.|Maintained and updated existing applications to improve functionality.|Implement user interface designs using UIKit, Interface Builder, and SwiftUI, ensuring a seamless user experience.|Assist in preparing technical documentation, including user guides and development manuals, to support application deployment and usage.",
       className: "md:col-span-2",
-      thumbnail: "/exp1.svg",
+      thumbnail: "./exp1.svg",
     },
     {
       id: 2,
       title: "Jr. Java Developer - AHC Tech",
       desc: "Involved in DevOps migration/automation processes for build and deploy systems.|Developed webpages using HTML5, CSS3, and JavaScript.|Tested applications on multiple devices to ensure compatibility standards.|Environment: AWS, Azure, Azure Devops, Maven, Git, MS SQL, Java/J2EE Technologies.",
       className: "md:col-span-2", // change to md:col-span-2
-      thumbnail: "/exp2.svg",
+      thumbnail: "./exp2.svg",
     },
     // {
     //   id: 3,
@@ -206,7 +206,7 @@ export const navItems = [
   export const socialMedia = [
     {
       id: 1,
-      img: "/git.svg",
+      img: "./git.svg",
       link: "https://github.com/owaisazmal"
     },
     // {
@@ -216,7 +216,7 @@ export const navItems = [
     // },
     {
       id: 3,
-      img: "/link.svg",
+      img: "./link.svg",
       link: "https://www.linkedin.com/in/owais-khan-266492222/"
     },
   ];
