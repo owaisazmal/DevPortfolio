@@ -13,8 +13,7 @@ const Footer = () => {
           presence to the next level?
         </h1>
         <p className="text-white-200 md:mt-10 my-5 text-center">
-          Reach out to me today and let&apos;s discuss how I can help you
-          achieve your goals.
+        Let's connect and create something amazing together!
         </p>
         <a href="mailto:owaiskhan461@gmail.com">
           <MagicButton
