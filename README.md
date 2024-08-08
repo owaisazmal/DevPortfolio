@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# My Portfolio
 
-## Getting Started
+Welcome to my personal portfolio, built using **Next.js**! This project showcases my skills, projects, and experience. Feel free to explore and reach out if you'd like to connect.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Demo](#demo)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Check out the live version of my portfolio [here](https://owaisazmal.github.io/DevPortfolio/).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+- **Navigation**: Easily accessible sections such as About, Projects, Work Experience, and Contact.
+- **Project Display**: A detailed showcase of projects with descriptions, technologies used, and GitHub links.
+- **Responsive Layout**: Designed to be fully responsive across devices.
+- **Work Experience**: Highlights of my professional experience, presented in a visually appealing manner.
+- **Social Media Links**: Connect with me on GitHub and LinkedIn.
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) for responsive and customizable designs.
+- **Icons & Images**: Utilized SVGs for high-quality icons and images.
+- **Deployment**: [GitHub Pages](https://pages.github.com/) for hosting.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## project-structure
+.
+├── components        # Reusable components such as Navbar, Footer, ProjectCard, etc.
+├── pages             # Next.js pages (e.g., index.js, about.js, projects.js)
+├── public            # Static assets (images, icons, etc.)
+├── styles            # Global styles, Tailwind configuration
+├── utils             # Utility functions and constants
+├── package.json      # Project dependencies and scripts
+└── README.md         # This file
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
