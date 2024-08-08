@@ -28,13 +28,39 @@ Check out the live version of my portfolio [here](https://owaisazmal.github.io/D
 - **Icons & Images**: Utilized SVGs for high-quality icons and images.
 - **Deployment**: [GitHub Pages](https://pages.github.com/) for hosting.
 
-## project-structure
+## Project Structure
+
+The project structure is organized as follows:
+
+```plaintext
 .
-├── components        # Reusable components such as Navbar, Footer, ProjectCard, etc.
-├── pages             # Next.js pages (e.g., index.js, about.js, projects.js)
-├── public            # Static assets (images, icons, etc.)
-├── styles            # Global styles, Tailwind configuration
-├── utils             # Utility functions and constants
-├── package.json      # Project dependencies and scripts
-└── README.md         # This file
+├── .github/
+│   └── workflows/
+│       └── nextjs.yml          # GitHub Actions workflow for CI/CD
+├── app/                        # Application-specific files and configurations
+│   └── ...
+├── components/                 # Reusable components such as Navbar, Footer, ProjectCard, etc.
+│   ├── Navbar.js
+│   ├── Footer.js
+│   ├── ProjectCard.js
+│   └── ...
+├── data/                       # Static data used within the app
+│   ├── ...
+├── public/                     # Static assets like images, icons, and fonts
+│   ├── images/
+│   ├── icons/
+│   └── ...
+├── utils/                      # Utility functions and constants used throughout the project
+│   ├── constants.js
+│   ├── helpers.js
+│   └── ...
+├── .eslintrc.json              # ESLint configuration file
+├── .gitignore                  # Git ignore file
+├── README.md                   # Project documentation (this file)
+├── next.config.mjs             # Next.js configuration file
+├── package-lock.json           # Lockfile for dependencies (npm)
+├── package.json                # Project dependencies and npm scripts
+├── postcss.config.mjs          # PostCSS configuration file for Tailwind CSS
+├── tailwind.config.ts          # Tailwind CSS configuration file
+└── tsconfig.json               # TypeScript configuration file
 
