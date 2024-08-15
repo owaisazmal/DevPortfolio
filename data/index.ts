@@ -77,7 +77,7 @@ export const navItems = [
       title: "Expense Tracker",
       des: "An app built with SwiftUI and SwiftUICharts, designed to help users track expenses and visualize spending habits.",
       img: "./ExpTrkr.png",
-      iconLists: ["./swift.svg", "./xcode.svg", "./nucleus.svg", ".chart.svg", "./git.svg"],
+      iconLists: ["./swift.svg", "./xcode.svg", "./nucleus.svg", "./chart.svg", "./git.svg"],
       link: "https://github.com/owaisazmal/ExpenseTracker",
     },
     {
