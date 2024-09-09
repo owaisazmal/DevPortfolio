@@ -28,6 +28,19 @@ Check out the live version of my portfolio [here](https://owaisazmal.github.io/D
 - **Icons & Images**: Utilized SVGs for high-quality icons and images.
 - **Deployment**: [GitHub Pages](https://pages.github.com/) for hosting.
 
+## Installation
+
+Install the project dependencies using npm:
+
+```plaintext
+npm install
+```
+
+Running the Project
+```plaintext
+npm run dev
+```
+
 ## Project Structure
 
 The project structure is organized as follows:
