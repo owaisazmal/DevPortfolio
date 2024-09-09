@@ -160,14 +160,14 @@ export const navItems = [
       title: "Freelance App Dev Project",
       desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
       className: "md:col-span-2", // change to md:col-span-2
-      thumbnail: "/exp3.svg",
+      thumbnail: "./exp3.svg",
     },
     {
       id: 4,
       title: "Research Assistant - Project IGV ",
       desc: "Currently developing software components using ROS1 to control autonomous ground vehicles | Collaborating with the Intelligent Ground Vehicle team to implement algorithms for obstacle detection and navigation.",
       className: "md:col-span-2",
-      thumbnail: "/exp4.svg",
+      thumbnail: "./exp4.svg",
     },
   ];
   
