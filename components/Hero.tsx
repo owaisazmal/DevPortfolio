@@ -38,7 +38,7 @@ const Hero = () => {
             A Computer Science Sudent at California State University, Northridge.
             </p>
 
-            <a href="https://drive.google.com/file/d/1CKwKjElzJagVrG8HWYpHMRgirMwUsLSj/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            <a href="https://drive.google.com/file/d/1MdZBX6XIw_gvXv5LVC6HjlUt6Qt49kLo/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <MagicButton
                 title = "Resume"
                 icon = {<FaLocationArrow />}
