@@ -90,11 +90,11 @@ export const navItems = [
     },
     {
       id: 3,
-      title: "Face Detection - Emotion Detector",
+      title: "Emotion Detector - Live",
       des: "This is a web application that detects faces in real-time using the face-api.js library.",
       img: "./FaceDet.png",
       iconLists: ["./html-5-svgrepo-com.svg", "./api.svg", "./js-svgrepo-com.svg", "./face-detection.svg", "./c.svg"],
-      link: "https://github.com/owaisazmal/Face-Detection",
+      link: "https://owaisazmal.github.io/Face-Detection/",
     },
     {
       id: 4,

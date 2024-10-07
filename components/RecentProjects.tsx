@@ -69,10 +69,11 @@ const RecentProjects = () => {
 
                 <div className="flex justify-center items-center">
                   <p className="flex lg:text-xl md:text-xs text-sm text-purple">
-                    Show Git Repo
+                    {id === 3 ? "View Live" : "Show Git Repo"}
                   </p>
                   <FaLocationArrow className="ms-3" color="#CBACF9" />
                 </div>
+
               </div>
             </PinContainer>
           </div>
