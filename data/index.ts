@@ -142,32 +142,36 @@ export const navItems = [
   
   export const workExperience = [
     {
+      // August 2025 - Present | 
       id: 1,
+      title: "Hidonix.inc",
+      desc: "Developed and maintained high-quality mobile applications using Swift and React Native.|Collaborated with design teams for responsive UI/UX implementation.|Led feature development, sprint planning, and code reviews.|Optimized app performance, integrated RESTful APIs, and maintained code quality.|Managed app releases and updates while contributing to technical architecture decisions.",
+      className: "md:col-span-2",
+      thumbnail: "./exp3.svg",
+    },
+    {
+      // September 2022 - August 2025 | 
+      id: 2,
       title: "iOS Developer - CSU, Northridge",
       desc: "Assisted in the development of a mobile app using Swift, enhancing interactivity.|Maintained and updated existing applications to improve functionality.|Implement user interface designs using UIKit, Interface Builder, and SwiftUI, ensuring a seamless user experience.|Assist in preparing technical documentation, including user guides and development manuals, to support application deployment and usage.",
       className: "md:col-span-2",
       thumbnail: "./exp1.svg",
     },
     {
-      id: 2,
-      title: "Jr. Java Developer - AHC Tech",
-      desc: "Involved in DevOps migration/automation processes for build and deploy systems.|Developed webpages using HTML5, CSS3, and JavaScript.|Tested applications on multiple devices to ensure compatibility standards.|Environment: AWS, Azure, Azure Devops, Maven, Git, MS SQL, Java/J2EE Technologies.",
-      className: "md:col-span-2", // change to md:col-span-2
-      thumbnail: "./exp2.svg",
-    },
-    {
+      // August 2024 - May 2025 · Los Angeles, California | 
       id: 3,
-      title: "Freelance App Dev Project",
-      desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-      className: "md:col-span-2", // change to md:col-span-2
-      thumbnail: "./exp3.svg",
-    },
-    {
-      id: 4,
-      title: "Research Assistant - Project IGV ",
-      desc: "Currently developing software components using ROS1 to control autonomous ground vehicles | Collaborating with the Intelligent Ground Vehicle team to implement algorithms for obstacle detection and navigation.",
+      title: "Research Assistant - Project IGV",
+      desc: "Developing software components using ROS1 to control autonomous ground vehicles.|Collaborating with the Intelligent Ground Vehicle team to implement algorithms for obstacle detection and navigation.",
       className: "md:col-span-2",
       thumbnail: "./exp4.svg",
+    },
+    {
+      // August 2020 - May 2021 | 
+      id: 4,
+      title: "Jr. Java Developer - AHC Tech",
+      desc: "Involved in DevOps migration/automation processes for build and deploy systems.|Developed webpages using HTML5, CSS3, and JavaScript.|Tested applications on multiple devices to ensure compatibility standards.|Environment: AWS, Azure, Azure Devops, Maven, Git, MS SQL, Java/J2EE Technologies.",
+      className: "md:col-span-2",
+      thumbnail: "./exp2.svg",
     },
   ];
   
