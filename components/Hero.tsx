@@ -35,7 +35,7 @@ const Hero = () => {
             />
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80 mb-4">
             {/* <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl"> */}
-            iOS Developer at Hidonix, dedicated to creating sleek, scalable, and user-friendly mobile apps.
+            iOS Developer in Los Angeles, dedicated to creating sleek, scalable, and user-friendly mobile apps.
             </p>
 
             <a href="mailto:owaiskhan461@gmail.com" target="_blank" rel="noopener noreferrer">
