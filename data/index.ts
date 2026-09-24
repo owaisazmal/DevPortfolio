@@ -74,14 +74,22 @@ export const navItems = [
   export const projects = [
     {
       id: 1,
-      title: "Expense Tracker",
-      des: "An app built with SwiftUI and SwiftUICharts, designed to help users track expenses and visualize spending habits.",
-      img: "./ExpTrkr.png",
-      iconLists: ["./swift.svg", "./xcode.svg", "./nucleus.svg", "./chart.svg", "./git.svg"],
-      link: "https://github.com/owaisazmal/ExpenseTracker",
+      title: "Rin - Monthly Planning",
+      des: "A monthly planner with a radial habit tracker, home screen widgets and encrypted backups, built for iOS and Android.",
+      img: "./Rin.png",
+      iconLists: ["./re.svg", "./ts.svg", "./expo.svg", "./swift.svg", "./firebase.svg"],
+      link: "https://github.com/owaisazmal/Rin",
     },
     {
       id: 2,
+      title: "Kitefold - File Converter",
+      des: "A free, fast, 100% on-device image and PDF converter for iOS and Android. No uploads, no account, no paywall.",
+      img: "./Kitefold.png",
+      iconLists: ["./re.svg", "./ts.svg", "./expo.svg", "./swift.svg", "./kotlin.svg"],
+      link: "https://github.com/owaisazmal/PDF-Editor",
+    },
+    {
+      id: 3,
       title: "Swift Scribe - Notes App",
       des: "A sleek, powerful, and intuitive text editor designed to elevate your writing experience. ",
       img: "./Scribe.png",
@@ -89,15 +97,26 @@ export const navItems = [
       link: "https://github.com/owaisazmal/Swift-Scribe",
     },
     {
-      id: 3,
+      id: 4,
       title: "Emotion Detector - Live",
       des: "This is a web application that detects faces in real-time using the face-api.js library.",
       img: "./FaceDet.png",
       iconLists: ["./html-5-svgrepo-com.svg", "./api.svg", "./js-svgrepo-com.svg", "./face-detection.svg", "./c.svg"],
       link: "https://owaisazmal.github.io/Face-Detection/",
     },
+  ];
+
+  export const moreProjects = [
     {
-      id: 4,
+      id: 5,
+      title: "Expense Tracker",
+      des: "An app built with SwiftUI and SwiftUICharts, designed to help users track expenses and visualize spending habits.",
+      img: "./ExpTrkr.png",
+      iconLists: ["./swift.svg", "./xcode.svg", "./nucleus.svg", "./chart.svg", "./git.svg"],
+      link: "https://github.com/owaisazmal/ExpenseTracker",
+    },
+    {
+      id: 6,
       title: "Weather Util",
       des: "This app demonstrates the use of SwiftUI to create a weather information interface. It provides a list of daily weather forecasts.",
       img: "./Weather.png",
@@ -105,41 +124,7 @@ export const navItems = [
       link: "https://github.com/owaisazmal/WeatherUtil",
     },
   ];
-  
-  
-  export const companies = [
-    {
-      id: 1,
-      name: "cloudinary",
-      img: "./cloud.svg",
-      nameImg: "./cloudName.svg",
-    },
-    {
-      id: 2,
-      name: "appwrite",
-      img: "./app.svg",
-      nameImg: "./appName.svg",
-    },
-    {
-      id: 3,
-      name: "HOSTINGER",
-      img: "./host.svg",
-      nameImg: "./hostName.svg",
-    },
-    {
-      id: 4,
-      name: "stream",
-      img: "./s.svg",
-      nameImg: "./streamName.svg",
-    },
-    {
-      id: 5,
-      name: "docker.",
-      img: "./dock.svg",
-      nameImg: "./dockerName.svg",
-    },
-  ];
-  
+
   export const workExperience = [
     {
       // August 2025 - Present | 
