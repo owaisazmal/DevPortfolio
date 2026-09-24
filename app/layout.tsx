@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Instrument_Serif } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Instrument_Serif, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
 
 const serif = Instrument_Serif({
@@ -19,6 +19,11 @@ const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-mono",
+});
+
+const pixel = Pixelify_Sans({
+  subsets: ["latin"],
+  variable: "--font-pixel",
 });
 
 const bootScript = `(function(){var d=document.documentElement;d.setAttribute("data-js","");try{if(localStorage.getItem("theme")==="night")d.setAttribute("data-theme","night")}catch(e){}})();`;
@@ -42,7 +47,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+      className={`${serif.variable} ${sans.variable} ${mono.variable} ${pixel.variable}`}
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />

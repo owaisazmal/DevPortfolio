@@ -139,7 +139,7 @@ export const Window = ({
         >
           <span aria-hidden className="h-3.5 w-3.5 shrink-0 border-2 border-ink bg-paper" />
           <span aria-hidden className="titlebar-stripes h-2.5 min-w-3 flex-1" />
-          <Title className="max-w-[75%] truncate font-mono text-[11px] font-semibold uppercase tracking-[0.15em]">
+          <Title className="max-w-[75%] truncate font-pixel text-[14px] leading-none">
             {title}
           </Title>
           <span aria-hidden className="titlebar-stripes h-2.5 min-w-3 flex-1" />

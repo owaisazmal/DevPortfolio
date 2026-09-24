@@ -72,7 +72,7 @@ export const Dialog = ({ open, onClose, title, from, className, children }: Dial
           <span aria-hidden className="titlebar-stripes h-2.5 min-w-3 flex-1" />
           <h2
             id={titleId}
-            className="max-w-[70%] truncate font-mono text-[11px] font-semibold uppercase tracking-[0.15em]"
+            className="max-w-[70%] truncate font-pixel text-[14px] leading-none"
           >
             {title}
           </h2>

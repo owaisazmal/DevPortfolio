@@ -1,7 +1,12 @@
 export const contactEmail = "owais.develops@gmail.com";
 
+export const githubUser = "owaisazmal";
+
 export const resumeUrl =
   "https://drive.google.com/file/d/19yzUOhVN_0vrONpniMMmz_nodC3Xu_ON/view?usp=sharing";
+
+// Update these by hand
+export const betaSeats = { taken: 12, total: 40 };
 
 const mailto = (subject: string) =>
   `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}`;
@@ -47,6 +52,7 @@ export type Project = {
   kind: string;
   repo?: string;
   icon?: string;
+  stamp?: string;
   highlights?: string[];
 };
 
@@ -152,25 +158,29 @@ export const moreProjects: Project[] = [
 export const workExperience = [
   {
     id: 1,
-    title: "Hidonix.inc",
+    org: "Hidonix.inc",
+    role: "Mobile Developer",
     date: "Aug 2025 - Present",
     desc: "Developed and maintained high-quality mobile applications using Swift and React Native.|Collaborated with design teams for responsive UI/UX implementation.|Led feature development, sprint planning, and code reviews.|Optimized app performance, integrated RESTful APIs, and maintained code quality.|Managed app releases and updates while contributing to technical architecture decisions.",
   },
   {
     id: 2,
-    title: "iOS Developer - CSU, Northridge",
+    org: "CSU, Northridge",
+    role: "iOS Developer",
     date: "Sep 2022 - Aug 2025",
     desc: "Assisted in the development of a mobile app using Swift, enhancing interactivity.|Maintained and updated existing applications to improve functionality.|Implemented user interface designs using UIKit, Interface Builder, and SwiftUI, ensuring a seamless user experience.|Assisted in preparing technical documentation, including user guides and development manuals, to support application deployment and usage.",
   },
   {
     id: 3,
-    title: "Research Assistant - Project IGV",
+    org: "Project IGV",
+    role: "Research Assistant",
     date: "Aug 2024 - May 2025",
     desc: "Developed software components using ROS1 to control autonomous ground vehicles.|Collaborated with the Intelligent Ground Vehicle team to implement algorithms for obstacle detection and navigation.",
   },
   {
     id: 4,
-    title: "Jr. Java Developer - AHC Tech",
+    org: "AHC Tech",
+    role: "Jr. Java Developer",
     date: "Aug 2020 - May 2021",
     desc: "Involved in DevOps migration/automation processes for build and deploy systems.|Developed webpages using HTML5, CSS3, and JavaScript.|Tested applications on multiple devices to ensure compatibility standards.|Environment: AWS, Azure, Azure DevOps, Maven, Git, MS SQL, Java/J2EE Technologies.",
   },

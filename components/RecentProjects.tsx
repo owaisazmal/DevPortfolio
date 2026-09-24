@@ -9,6 +9,7 @@ import { Box } from "@/utils/zoomRects";
 import DitheredImage from "./DitheredImage";
 import ProjectInfoDialog from "./ProjectInfoDialog";
 import { SectionHeading } from "./ui/SectionHeading";
+import { Stamp } from "./ui/Stamp";
 import { Window } from "./ui/Window";
 
 type Info = { project: Project; from: Box };
@@ -25,9 +26,10 @@ const ProjectCard = ({ project, onInfo }: { project: Project; onInfo: (info: Inf
         type="button"
         onClick={open}
         aria-label={`Get info: ${title}`}
-        className="block w-full border-b-2 border-ink text-left"
+        className="relative block w-full border-b-2 border-ink text-left"
       >
         <DitheredImage src={img} className="aspect-[16/10]" />
+        <Stamp className="absolute right-3 top-3">{project.stamp ?? (isRepo ? "Open source" : "Live")}</Stamp>
       </button>
 
       <div className="flex flex-1 flex-col gap-6 p-5 md:p-6">

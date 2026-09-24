@@ -256,7 +256,7 @@ const MenuBar = () => {
             height={32}
             className="h-8 w-8 shrink-0 border-2 border-ink object-cover"
           />
-          <span className="hidden font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:inline md:hidden lg:inline">
+          <span className="hidden font-pixel text-[15px] sm:inline md:hidden lg:inline">
             Owais Khan
           </span>
         </a>
@@ -284,7 +284,7 @@ const MenuBar = () => {
                     openAt(index, true);
                   }}
                   className={cn(
-                    "px-2.5 py-1 font-mono text-xs uppercase tracking-wider",
+                    "px-2.5 py-1 font-pixel text-[15px]",
                     isOpen && "bg-ink text-paper",
                   )}
                 >
@@ -308,7 +308,7 @@ const MenuBar = () => {
           })}
         </ul>
 
-        <ul className="ml-auto flex items-center gap-0.5 font-mono text-[10px] uppercase tracking-wider min-[380px]:gap-1 min-[380px]:text-[11px] sm:gap-3 sm:text-xs">
+        <ul className="ml-auto flex items-center gap-0.5 font-pixel text-[13px] min-[380px]:gap-1 min-[380px]:text-[14px] sm:gap-3 sm:text-[15px]">
           {navItems.map((item) => (
             <li key={item.link}>
               <a

@@ -7,6 +7,7 @@ import { contactEmail, moreProjects, projects, techLabel } from "@/data";
 import { cn } from "@/utils/cn";
 
 import { Dialog } from "./ui/Dialog";
+import { PixelIcon } from "./ui/PixelIcon";
 
 type Name = "about" | "bomb";
 
@@ -46,15 +47,7 @@ const fills: Record<string, string> = {
   "*": "rgb(var(--steel))",
 };
 
-const Bomb = () => (
-  <svg viewBox="0 0 16 16" width="72" height="72" shapeRendering="crispEdges" aria-hidden className="shrink-0">
-    {bombMap.flatMap((row, y) =>
-      row.split("").map((ch, x) =>
-        fills[ch] ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill={fills[ch]} /> : null,
-      ),
-    )}
-  </svg>
-);
+const Bomb = () => <PixelIcon map={bombMap} fills={fills} size={72} className="shrink-0" />;
 
 const all = [...projects, ...moreProjects];
 

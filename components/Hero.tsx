@@ -3,6 +3,7 @@ import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
 import { contactEmail } from "@/data";
 
 import PhoneMock from "./PhoneMock";
+import TypedWord from "./TypedWord";
 
 const facts = [
   { term: "Based in", value: "Los Angeles, CA" },
@@ -18,8 +19,9 @@ const Hero = () => (
 
         <h1 className="mt-5 font-serif text-[2.9rem] leading-[0.98] sm:text-6xl lg:text-[5.25rem]">
           Building intuitive mobile apps with precision &amp;{" "}
-          <em className="text-steel">passion</em>
-          <span aria-hidden className="animate-blink text-steel">_</span>
+          <em className="text-steel">
+            <TypedWord text="passion" />
+          </em>
         </h1>
 
         <p className="mt-7 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">

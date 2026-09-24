@@ -4,48 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 
 import { Project, techLabel } from "@/data";
+import { RepoMeta, fetchRepoMeta } from "@/utils/github";
 import { Box } from "@/utils/zoomRects";
 
 import { Dialog } from "./ui/Dialog";
-
-type Meta = { created: string; modified: string; size: string };
-
-const cache = new Map<string, Promise<Meta | null>>();
-
-const dateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
-
-const relative = (iso: string) => {
-  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
-  if (days <= 0) return "Today";
-  if (days === 1) return "Yesterday";
-  if (days < 30) return `${days} days ago`;
-  return dateFormat.format(new Date(iso));
-};
-
-const formatSize = (kb: number) => (kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${kb} KB`);
-
-const fetchMeta = (repo: string) => {
-  if (!cache.has(repo)) {
-    cache.set(
-      repo,
-      fetch(`https://api.github.com/repos/${repo}`, {
-        headers: { Accept: "application/vnd.github+json" },
-      })
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data) =>
-          data
-            ? {
-                created: dateFormat.format(new Date(data.created_at)),
-                modified: relative(data.pushed_at),
-                size: formatSize(data.size),
-              }
-            : null,
-        )
-        .catch(() => null),
-    );
-  }
-  return cache.get(repo)!;
-};
 
 const AppIcon = ({ project }: { project: Project }) =>
   project.icon ? (
@@ -76,7 +38,7 @@ const ProjectInfoDialog = ({ project, from, onClose }: Props) => {
   const last = useRef<Project | null>(null);
   if (project) last.current = project;
   const shown = project ?? last.current;
-  const [meta, setMeta] = useState<Meta | null | "loading">(null);
+  const [meta, setMeta] = useState<RepoMeta | null | "loading">(null);
 
   useEffect(() => {
     if (!project?.repo) {
@@ -85,7 +47,7 @@ const ProjectInfoDialog = ({ project, from, onClose }: Props) => {
     }
     let live = true;
     setMeta("loading");
-    fetchMeta(project.repo).then((result) => {
+    fetchRepoMeta(project.repo).then((result) => {
       if (live) setMeta(result);
     });
     return () => {

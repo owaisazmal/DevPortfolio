@@ -4,6 +4,7 @@ import Grid from "@/components/Grid";
 import Hero from "@/components/Hero";
 import MenuBar from "@/components/MenuBar";
 import RecentProjects from "@/components/RecentProjects";
+import ScrollRuler from "@/components/ScrollRuler";
 import SystemDialogs from "@/components/SystemDialogs";
 import Ticker from "@/components/Ticker";
 
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <MenuBar />
+      <ScrollRuler />
       <main className="overflow-x-clip">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Hero />

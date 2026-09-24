@@ -10,17 +10,53 @@ const socialIcons: Record<string, React.ReactNode> = {
   LinkedIn: <FaLinkedinIn aria-hidden />,
 };
 
+const Postmark = () => (
+  <svg
+    viewBox="0 0 220 120"
+    width="220"
+    height="120"
+    aria-hidden
+    className="absolute right-0 top-40 hidden -rotate-12 text-steel-light opacity-80 lg:block"
+  >
+    <defs>
+      <path id="postmark-ring" d="M60 60 m -42 0 a 42 42 0 1 1 84 0 a 42 42 0 1 1 -84 0" />
+    </defs>
+    <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" strokeWidth="2" />
+    <circle cx="60" cy="60" r="30" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3 3" />
+    <text fill="currentColor" fontFamily="var(--font-mono)" fontSize="9" letterSpacing="1.4">
+      <textPath href="#postmark-ring" startOffset="2">
+        LOS ANGELES · CA · SENT WITH CARE ·
+      </textPath>
+    </text>
+    <text x="60" y="67" textAnchor="middle" fill="currentColor" fontFamily="var(--font-serif)" fontSize="22">
+      {new Date().getFullYear()}
+    </text>
+    {[36, 50, 64, 78].map((y) => (
+      <path
+        key={y}
+        d={`M122 ${y} q 8 -6 16 0 t 16 0 t 16 0 t 16 0 t 16 0`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+    ))}
+  </svg>
+);
+
 const Footer = () => (
   <footer id="contact" className="dots-dark border-t-2 border-ink bg-ink text-paper">
     <div className="mx-auto max-w-6xl px-4 pb-10 pt-20 sm:px-6 md:pt-28">
-      <SectionHeading index="04" label="Contact" onDark className="max-w-4xl">
-        Got an idea that belongs in someone&apos;s <em className="text-steel-light">pocket</em>?
-      </SectionHeading>
+      <div className="relative">
+        <Postmark />
+        <SectionHeading index="04" label="Contact" onDark className="max-w-4xl">
+          Got an idea that belongs in someone&apos;s <em className="text-steel-light">pocket</em>?
+        </SectionHeading>
 
-      <p className="-mt-4 max-w-xl text-lg leading-relaxed text-fog">
-        Reach out today. Let&apos;s connect and build something amazing together, or at least
-        have a very good conversation about it.
-      </p>
+        <p className="-mt-4 max-w-xl text-lg leading-relaxed text-fog">
+          Reach out today. Let&apos;s connect and build something amazing together, or at least
+          have a very good conversation about it.
+        </p>
+      </div>
 
       <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
         <a href={`mailto:${contactEmail}`} className="btn-retro btn-on-dark">
