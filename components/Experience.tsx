@@ -1,56 +1,34 @@
-import React from "react";
-
 import { workExperience } from "@/data";
-import { Button } from "./ui/MovingBorders";
 
-const Experience = () => {
-  return (
-    <div className="py-20 w-full" id="workExperience">
-      <h1 className="heading">
-        My <span className="text-purple">work experience</span>
-      </h1>
+import { SectionHeading } from "./ui/SectionHeading";
 
-      <div className="w-full mt-12 grid lg:grid-cols-4 grid-cols-1 gap-10">
-        {workExperience.map((card) => (
-          <Button
-            key={card.id}
-            //   random duration will be fun , I think , may be not
-            duration={Math.floor(Math.random() * 10000) + 10000}
-            borderRadius="1.75rem"
-            style={{
-              //   add these two
-              //   can generate the color from here https://cssgradient.io/
-              background: "rgb(4,7,29)",
-              backgroundColor:
-                "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
-              // add this border radius to make it more rounded so that the moving border is more realistic
-              borderRadius: `calc(1.75rem* 0.96)`,
-            }}
-            // remove bg-white dark:bg-slate-900
-            className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
-          >
-            <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-              <img
-                src={card.thumbnail}
-                alt={card.thumbnail}
-                className="lg:w-32 md:w-20 w-16"
-              />
-              <div className="lg:ms-5">
-                <h1 className="text-start text-xl md:text-2xl font-bold">
-                  {card.title}
-                </h1>
-                <ul className="text-start text-white-100 mt-3 font-semibold list-disc list-inside">
-                  {card.desc.split('|').map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Button>
-        ))}
-      </div>
-    </div>
-  );
-};
+const Experience = () => (
+  <section id="workExperience" className="py-20 md:py-28">
+    <SectionHeading index="03" label="Experience">
+      My work <em className="text-steel">experience</em>.
+    </SectionHeading>
+
+    <ol className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2">
+      {workExperience.map((job) => (
+        <li key={job.id} className="relative flex min-w-0 flex-col pt-7">
+          <p className="absolute left-5 top-0 h-7 border-2 border-b-0 border-ink bg-steel-wash px-3 pt-1 font-mono text-[11px] font-semibold uppercase tracking-wider">
+            {job.date}
+          </p>
+          <article className="flex-1 border-2 border-ink bg-surface p-6 shadow-retro md:p-8">
+            <h3 className="font-serif text-3xl leading-tight">{job.title}</h3>
+            <ul className="mt-5 space-y-3 leading-relaxed text-ink-soft">
+              {job.desc.split("|").map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span aria-hidden className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 bg-steel-deep" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </section>
+);
 
 export default Experience;

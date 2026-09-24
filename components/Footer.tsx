@@ -1,49 +1,67 @@
-import { FaLocationArrow } from "react-icons/fa6";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
+import { FiArrowUp, FiArrowUpRight } from "react-icons/fi";
 
-import { socialMedia } from "@/data";
-import MagicButton from "./MagicButton";
+import { contactEmail, socialMedia } from "@/data";
 
-const Footer = () => {
-  return (
-    <footer className="w-full pb-10 mb-[100px] md:mb-5" id="contact">
+import { SectionHeading } from "./ui/SectionHeading";
 
-      <div className="flex flex-col items-center">
-        <h1 className="heading lg:max-w-[45vw]">
-          Ready to take <span className="text-purple">your</span> digital
-          presence to the next level?
-        </h1>
-        <p className="text-white-200 md:mt-10 my-5 text-center">
-          Reach out to me today, Let&apos;s connect and create something amazing together!
-        </p>
-        <a href="mailto:owaiskhan461@gmail.com">
-          <MagicButton
-            title="Let's get in touch"
-            icon={<FaLocationArrow />}
-            position="right"
-          />
+const socialIcons: Record<string, React.ReactNode> = {
+  GitHub: <FaGithub aria-hidden />,
+  LinkedIn: <FaLinkedinIn aria-hidden />,
+};
+
+const Footer = () => (
+  <footer id="contact" className="dots-dark border-t-2 border-ink bg-ink text-paper">
+    <div className="mx-auto max-w-6xl px-4 pb-10 pt-20 sm:px-6 md:pt-28">
+      <SectionHeading index="04" label="Contact" onDark className="max-w-4xl">
+        Got an idea that belongs in someone&apos;s <em className="text-steel-light">pocket</em>?
+      </SectionHeading>
+
+      <p className="-mt-4 max-w-xl text-lg leading-relaxed text-fog">
+        Reach out today. Let&apos;s connect and build something amazing together, or at least
+        have a very good conversation about it.
+      </p>
+
+      <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+        <a href={`mailto:${contactEmail}`} className="btn-retro btn-on-dark">
+          Let&apos;s get in touch <FiArrowUpRight aria-hidden />
+        </a>
+        <a
+          href={`mailto:${contactEmail}`}
+          className="font-mono text-sm text-fog underline decoration-steel underline-offset-4 hover:text-paper"
+        >
+          {contactEmail}
         </a>
       </div>
-      <div className="flex mt-16 md:flex-row flex-col justify-between items-center">
-        <p className="md:text-base text-sm md:font-normal font-light">
-          {/* Copyright © 2024 Adrian Hajdin */}
+
+      <div className="mt-24 flex flex-col-reverse gap-6 border-t border-ink-soft pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-mono text-xs uppercase tracking-wider text-fog">
+          &copy; {new Date().getFullYear()} Owais Khan
         </p>
 
-
-        <div className="flex items-center md:gap-3 gap-6">
-          {socialMedia.map((info) => (
-            <div
-              key={info.id}
-              className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-lg border border-black-300"
+        <div className="flex items-center gap-3">
+          {socialMedia.map((social) => (
+            <a
+              key={social.id}
+              href={social.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.name}
+              className="grid h-10 w-10 place-items-center border-2 border-paper text-lg transition-colors hover:bg-paper hover:text-ink"
             >
-                <a href={info.link} target="_blank">
-              <img src={info.img} alt="icons" width={20} height={20} />
-              </a>
-            </div>
+              {socialIcons[social.name]}
+            </a>
           ))}
+          <a
+            href="#top"
+            className="ml-2 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-fog hover:text-paper"
+          >
+            Back to top <FiArrowUp aria-hidden />
+          </a>
         </div>
       </div>
-    </footer>
-  );
-};
+    </div>
+  </footer>
+);
 
 export default Footer;

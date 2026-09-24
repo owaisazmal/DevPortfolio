@@ -1,103 +1,105 @@
 "use client";
 
-import { useState } from "react";
-import { FaChevronDown, FaChevronUp, FaLocationArrow } from "react-icons/fa6";
+import { useCallback, useState } from "react";
+import { FiArrowUpRight, FiChevronDown, FiChevronUp, FiInfo } from "react-icons/fi";
 
-import { moreProjects, projects } from "@/data";
+import { Project, moreProjects, projects, techLabel } from "@/data";
+import { Box } from "@/utils/zoomRects";
 
-import MagicButton from "./ui/MagicButton";
-import { PinContainer } from "./ui/Pin";
+import DitheredImage from "./DitheredImage";
+import ProjectInfoDialog from "./ProjectInfoDialog";
+import { SectionHeading } from "./ui/SectionHeading";
+import { Window } from "./ui/Window";
 
-type Project = (typeof projects)[number];
+type Info = { project: Project; from: Box };
 
-const ProjectCard = ({ title, des, img, iconLists, link }: Project) => (
-  <div className="sm:h-[41rem] lg:min-h-[32.5rem] h-[32rem] flex items-center justify-center sm:w-[570px] w-[80vw]">
-    <PinContainer
-      title={link}
-      href={link}
-    >
-      <div className="relative flex items-center justify-center sm:w-[570px] w-[80vw] overflow-hidden sm:h-[40vh] h-[30vh] mb-10">
-        <div
-          className="relative w-full h-full overflow-hidden lg:rounded-3xl"
-          style={{ backgroundColor: "#13162D" }}
-        >
-          <img src="./bg.png" alt="bgimg" />
-        </div>
-        <img
-          src={img}
-          alt="cover"
-          className="z-10 absolute bottom-0"
-        />
-      </div>
+const ProjectCard = ({ project, onInfo }: { project: Project; onInfo: (info: Info) => void }) => {
+  const { title, des, img, iconLists, link } = project;
+  const isRepo = link.includes("github.com");
+  const open = (event: React.MouseEvent<HTMLElement>) =>
+    onInfo({ project, from: event.currentTarget.getBoundingClientRect() });
 
-      <h1 className="font-bold lg:text-2xl md:text-xl text-base line-clamp-1">
-        {title}
-      </h1>
-
-      <p
-        className="lg:text-xl lg:font-normal font-light text-sm line-clamp-2"
-        style={{
-          color: "#BEC1DD",
-          margin: "1vh 0",
-        }}
+  return (
+    <Window title={title} titleAs="h3" className="h-full" bodyClassName="flex h-full flex-col">
+      <button
+        type="button"
+        onClick={open}
+        aria-label={`Get info: ${title}`}
+        className="block w-full border-b-2 border-ink text-left"
       >
-        {des}
-      </p>
+        <DitheredImage src={img} className="aspect-[16/10]" />
+      </button>
 
-      <div className="flex items-center justify-between mt-7 mb-3">
-        <div className="flex items-center">
-          {iconLists.map((icon, index) => (
-            <div
-              key={index}
-              className="border border-white/[.2] rounded-full bg-black lg:w-10 lg:h-10 w-8 h-8 flex justify-center items-center"
-              style={{
-                transform: `translateX(-${5 * index + 2}px)`,
-              }}
+      <div className="flex flex-1 flex-col gap-6 p-5 md:p-6">
+        <p className="leading-relaxed text-ink-soft">{des}</p>
+
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-4">
+          <ul className="flex items-center" aria-label="Built with">
+            {iconLists.map((icon) => (
+              <li
+                key={icon}
+                className="-ml-1.5 grid h-9 w-9 place-items-center rounded-full border-2 border-surface bg-black first:ml-0"
+              >
+                <img src={icon} alt={techLabel(icon)} className="h-[18px] w-[18px] object-contain" />
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-wrap gap-3">
+            <button type="button" onClick={open} className="btn-retro btn-paper px-4 py-2 text-xs">
+              Get Info <FiInfo aria-hidden />
+              <span className="sr-only">: {title}</span>
+            </button>
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-retro btn-ink px-4 py-2 text-xs"
             >
-              <img src={icon} alt="icon5" className="p-2" />
-            </div>
-          ))}
+              {isRepo ? "View repo" : "View live"} <FiArrowUpRight aria-hidden />
+              <span className="sr-only">: {title}</span>
+            </a>
+          </div>
         </div>
-
-        <div className="flex justify-center items-center">
-          <p className="flex lg:text-xl md:text-xs text-sm text-purple">
-            {link.includes("github.com") ? "Show Git Repo" : "View Live"}
-          </p>
-          <FaLocationArrow className="ms-3" color="#CBACF9" />
-        </div>
-
       </div>
-    </PinContainer>
-  </div>
-);
+    </Window>
+  );
+};
 
 const RecentProjects = () => {
   const [showMore, setShowMore] = useState(false);
+  const [info, setInfo] = useState<Info | null>(null);
+  const closeInfo = useCallback(() => setInfo(null), []);
   const visibleProjects = showMore ? [...projects, ...moreProjects] : projects;
 
   return (
-    <div className="py-20" id = "projects">
-      <h1 className="heading">
-        A small selection of{" "}
-        <span className="text-purple">recent projects</span>
-      </h1>
-      <div className="flex flex-wrap items-center justify-center p-4 gap-x-24 gap-y-8 mt-10">
+    <section id="projects" className="py-20 md:py-28">
+      <SectionHeading index="02" label="Projects">
+        A small selection of <em className="text-steel">recent projects</em>.
+      </SectionHeading>
+
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
         {visibleProjects.map((project) => (
-          <ProjectCard key={project.id} {...project} />
+          <ProjectCard key={project.id} project={project} onInfo={setInfo} />
         ))}
       </div>
 
       {moreProjects.length > 0 && (
-        <div className="flex justify-center mt-10">
-          <MagicButton
-            title={showMore ? "Show fewer projects" : "Show more projects"}
-            icon={showMore ? <FaChevronUp /> : <FaChevronDown />}
-            position="right"
-            handleClick={() => setShowMore(!showMore)}
-          />
+        <div className="mt-14 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowMore(!showMore)}
+            aria-expanded={showMore}
+            className="btn-retro btn-paper"
+          >
+            {showMore ? "Show fewer projects" : `Show more projects (+${moreProjects.length})`}
+            {showMore ? <FiChevronUp aria-hidden /> : <FiChevronDown aria-hidden />}
+          </button>
         </div>
       )}
-    </div>
+
+      <ProjectInfoDialog project={info?.project ?? null} from={info?.from ?? null} onClose={closeInfo} />
+    </section>
   );
 };
 

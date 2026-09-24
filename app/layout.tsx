@@ -1,13 +1,36 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
 
-const inter = Inter({ subsets: ["latin"] });
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+});
+
+const sans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-sans",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
+});
+
+const bootScript = `(function(){var d=document.documentElement;d.setAttribute("data-js","");try{if(localStorage.getItem("theme")==="night")d.setAttribute("data-theme","night")}catch(e){}})();`;
 
 export const metadata: Metadata = {
-  title: "Owais Khan",
-  description: "I'm a third-year Computer Science student actively seeking a summer internship to apply my skills and gain practical experience in the field.",
+  title: "Owais Khan | Mobile Developer",
+  description:
+    "Owais Khan is a mobile developer in Los Angeles building intuitive iOS and Android apps.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFE3",
 };
 
 export default function RootLayout({
@@ -16,17 +39,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-        </ThemeProvider>
-          </body>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+    >
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+        {children}
+      </body>
     </html>
   );
 }
