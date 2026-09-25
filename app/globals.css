@@ -9,6 +9,7 @@
     --surface: 255 255 255;
     --ink: 43 43 43;
     --ink-soft: 74 74 74;
+    --graphite: 84 84 82;
     --ash: 179 179 179;
     --fog: 203 203 203;
     --mist: 212 212 212;
@@ -27,6 +28,7 @@
     --surface: 38 36 31;
     --ink: 241 238 219;
     --ink-soft: 200 197 180;
+    --graphite: 188 185 168;
     --ash: 112 110 100;
     --fog: 110 108 98;
     --mist: 88 86 78;
@@ -125,7 +127,7 @@
   }
 
   .btn-ink {
-    @apply bg-ink text-paper;
+    @apply bg-graphite text-paper;
   }
 
   .btn-paper {
@@ -192,6 +194,66 @@
     box-shadow: inset 0 0 0 2px rgb(var(--paper)), inset 0 0 0 3px currentColor;
   }
 
+  .boot {
+    @apply fixed inset-0 z-[9995] select-none;
+    pointer-events: none;
+    -webkit-mask-size: 4px 4px;
+    mask-size: 4px 4px;
+  }
+
+  .boot[data-skip] {
+    animation: boot-dissolve 240ms linear forwards;
+  }
+
+  .boot-inner {
+    @apply absolute inset-0 touch-none overflow-hidden;
+    pointer-events: auto;
+    background: rgb(20 19 16);
+    -webkit-mask-size: 4px 4px;
+    mask-size: 4px 4px;
+    animation: boot-dissolve 320ms linear 2300ms forwards;
+  }
+
+  .boot-screen {
+    @apply absolute inset-0 grid place-items-center overflow-hidden p-4;
+    background-color: rgb(var(--paper));
+    background-image: conic-gradient(
+      rgb(var(--ink) / 0.13) 25%,
+      transparent 0 50%,
+      rgb(var(--ink) / 0.13) 0 75%,
+      transparent 0
+    );
+    background-size: 4px 4px;
+    animation: boot-crt 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .boot-screen::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background: rgb(255 255 240);
+    animation: boot-flash 760ms ease-out forwards;
+  }
+
+  .boot-later {
+    opacity: 0;
+  }
+
+  .boot-bar {
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: boot-bar 880ms steps(8, jump-start) 1180ms forwards;
+  }
+
+  .boot-zoom > span {
+    @apply absolute inset-0 border-2 border-ink opacity-0;
+    animation: boot-zoom 240ms steps(6, end);
+  }
+
+  .boot-init {
+    @apply grid h-9 w-9 shrink-0 place-items-center border-2 border-ink shadow-retro-sm;
+    background: rgb(76 76 73);
+  }
+
   .ruler-ticks {
     background-image: linear-gradient(rgb(var(--ink)) 1px, transparent 1px),
       linear-gradient(rgb(var(--ink)) 1px, transparent 1px);
@@ -222,6 +284,106 @@
   }
 }
 
+@keyframes boot-crt {
+  0% {
+    transform: scale(0.02, 0.004);
+    filter: brightness(2);
+  }
+  40% {
+    transform: scale(1, 0.004);
+    filter: brightness(2);
+  }
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes boot-flash {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes boot-on {
+  from,
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes boot-pop {
+  0% {
+    opacity: 1;
+    transform: scale(0.55);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  70%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes boot-rise {
+  from {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes boot-zoom {
+  from {
+    opacity: 1;
+    transform: scale(0.16, 0.3);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes boot-bar {
+  to {
+    transform: none;
+  }
+}
+
+@keyframes boot-dissolve {
+  0% {
+    -webkit-mask-image: linear-gradient(#000 0 0);
+    mask-image: linear-gradient(#000 0 0);
+  }
+  25% {
+    -webkit-mask-image: conic-gradient(transparent 25%, #000 0);
+    mask-image: conic-gradient(transparent 25%, #000 0);
+  }
+  50% {
+    -webkit-mask-image: conic-gradient(#000 25%, transparent 0 50%, #000 0 75%, transparent 0);
+    mask-image: conic-gradient(#000 25%, transparent 0 50%, #000 0 75%, transparent 0);
+  }
+  75% {
+    -webkit-mask-image: conic-gradient(#000 25%, transparent 0);
+    mask-image: conic-gradient(#000 25%, transparent 0);
+  }
+  100% {
+    -webkit-mask-image: linear-gradient(transparent 0 0);
+    mask-image: linear-gradient(transparent 0 0);
+    visibility: hidden;
+  }
+}
+
 @media (hover: hover) {
   .dither[data-state="ready"]:hover canvas {
     opacity: 0;
@@ -235,6 +397,10 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .boot {
+    display: none;
   }
 
   .animate-marquee,

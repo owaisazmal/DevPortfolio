@@ -36,7 +36,6 @@ export const offers = [
     window: "beta_tests.log",
     title: "Want to beta test what I'm building?",
     body: "Get my apps before everyone else does. Tap every button, break things on purpose, and tell me what went wrong. Every bug report gets read, appreciated, and fixed (usually in that order).",
-    finePrint: "Side effects may include early access and mild bragging rights.",
     cta: "Join the beta",
     href: mailto("Sign me up for the beta"),
   },

@@ -103,7 +103,6 @@ const MenuBar = () => {
   const actionRef = useRef<(name: string) => void>(() => {});
   const [wide, setWide] = useState(false);
   const { weather } = useWeather(wide);
-  const [copied, setCopied] = useState(false);
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const [focusFirst, setFocusFirst] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -151,11 +150,22 @@ const MenuBar = () => {
       setOpenMenu(null);
       setMobileOpen(false);
     };
+    const start = window.scrollY;
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - start) < 8) return;
+      if (openMenu !== null && panelRef.current?.contains(document.activeElement)) {
+        titleRefs.current[openMenu]?.focus({ preventScroll: true });
+      }
+      setOpenMenu(null);
+      setMobileOpen(false);
+    };
     document.addEventListener("pointerdown", onPointer);
     document.addEventListener("keydown", onKey);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       document.removeEventListener("pointerdown", onPointer);
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [openMenu, mobileOpen]);
 
@@ -168,8 +178,6 @@ const MenuBar = () => {
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(contactEmail);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
     } catch {
       window.location.href = `mailto:${contactEmail}`;
     }
@@ -253,8 +261,10 @@ const MenuBar = () => {
     {
       name: "Edit",
       items: [
-        { kind: "action", label: copied ? "Copied!" : "Copy Email", run: copyEmail, keepOpen: true },
-        { kind: "link", label: "Email Me…", href: `mailto:${contactEmail}` },
+        { kind: "action", label: "Desktop Pattern…", run: () => dialog("pattern") },
+        { kind: "sep" },
+        { kind: "action", label: "Collapse All Windows", run: () => emit("portfolio:shade", true) },
+        { kind: "action", label: "Expand All Windows", run: () => emit("portfolio:shade", false) },
       ],
     },
     {
@@ -262,11 +272,6 @@ const MenuBar = () => {
       items: [
         { kind: "action", label: "Night Mode", run: toggleNight, checked: night },
         { kind: "action", label: "Sound Effects", run: toggleSound, checked: sound },
-        { kind: "sep" },
-        { kind: "action", label: "Desktop Pattern…", run: () => dialog("pattern") },
-        { kind: "sep" },
-        { kind: "action", label: "Collapse All Windows", run: () => emit("portfolio:shade", true) },
-        { kind: "action", label: "Expand All Windows", run: () => emit("portfolio:shade", false) },
       ],
     },
     {

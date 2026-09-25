@@ -14,6 +14,7 @@ const config = {
         paper: { DEFAULT: token("paper"), deep: token("paper-deep") },
         surface: token("surface"),
         ink: { DEFAULT: token("ink"), soft: token("ink-soft") },
+        graphite: token("graphite"),
         ash: token("ash"),
         fog: token("fog"),
         mist: token("mist"),

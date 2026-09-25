@@ -37,7 +37,9 @@ const Grid = () => (
           <h3 className="font-serif text-3xl leading-tight">{offer.title}</h3>
           <p className="leading-relaxed text-ink-soft">{offer.body}</p>
           {offer.id === 2 && <BetaSeats />}
-          <p className="font-mono text-[11px] leading-relaxed text-ink-soft">{offer.finePrint}</p>
+          {offer.finePrint && (
+            <p className="font-mono text-[11px] leading-relaxed text-ink-soft">{offer.finePrint}</p>
+          )}
           <OfferCta href={offer.href} dialog={offerDialogs[offer.id]}>
             {offer.cta}
           </OfferCta>

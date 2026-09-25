@@ -23,24 +23,50 @@ export const initSound = () => {
   return enabled;
 };
 
+const audio = () => {
+  if (!enabled || typeof window === "undefined") return null;
+  context ??= new AudioContext();
+  if (context.state === "suspended") void context.resume();
+  return context;
+};
+
 export const play = (name: Name) => {
-  if (!enabled || typeof window === "undefined") return;
   try {
-    context ??= new AudioContext();
-    if (context.state === "suspended") void context.resume();
-    let at = context.currentTime;
+    const ctx = audio();
+    if (!ctx) return;
+    let at = ctx.currentTime;
     for (const [frequency, seconds, wave] of tones[name]) {
-      const osc = context.createOscillator();
-      const gain = context.createGain();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
       osc.type = wave;
       osc.frequency.value = frequency;
       gain.gain.setValueAtTime(0.0001, at);
       gain.gain.exponentialRampToValueAtTime(0.08, at + 0.005);
       gain.gain.exponentialRampToValueAtTime(0.0001, at + seconds);
-      osc.connect(gain).connect(context.destination);
+      osc.connect(gain).connect(ctx.destination);
       osc.start(at);
       osc.stop(at + seconds + 0.02);
       at += seconds;
+    }
+  } catch {}
+};
+
+export const chime = () => {
+  try {
+    const ctx = audio();
+    if (!ctx || (ctx.state !== "running" && !navigator.userActivation?.isActive)) return;
+    const at = ctx.currentTime + 0.02;
+    for (const frequency of [174.61, 261.63, 349.23, 440, 523.25]) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.0001, at);
+      gain.gain.exponentialRampToValueAtTime(0.035, at + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, at + 1.8);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(at);
+      osc.stop(at + 1.85);
     }
   } catch {}
 };

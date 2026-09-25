@@ -12,6 +12,13 @@ type Target = { el: Element; text: string };
 type Copy = string | ((el: Element, point: Point) => string | Target | null);
 type Entry = { match: string; text: Copy; hit?: boolean };
 type Balloon = Target & { point: Point; hit: boolean };
+type Option = {
+  side: "below" | "above" | "right" | "left";
+  x: number;
+  y: number;
+  fits: boolean;
+  detached?: boolean;
+};
 
 const norm = (value: string | null | undefined) =>
   (value ?? "")
@@ -65,8 +72,8 @@ const apps = [...projects, ...moreProjects];
 
 const menus: Record<string, string> = {
   file: "The File menu. Find, a fresh pitch, the beta installer, and my résumé, GitHub, LinkedIn and LeetCode. Quit is greyed out; you only just got here.",
-  edit: "The Edit menu. Copies my email address to your clipboard, or opens a blank email so you can skip straight to the point.",
-  view: "The View menu. Night Mode, sound effects, a desktop pattern you paint yourself, and a way to collapse every window at once.",
+  edit: "The Edit menu. Paint a desktop pattern for the whole page, or roll every window up into its title bar and back down again.",
+  view: "The View menu. Night Mode for dark paper, and sound effects for tiny square-wave clicks. Both remember your choice.",
   special:
     "The Special menu. A puzzle, the LA weather, a screensaver, a Restart that boots the page again, and a Shut Down you probably shouldn't trust.",
   help: "The Help menu. You found it. Balloons switch off here whenever the chatter gets too much, and / opens Find from anywhere.",
@@ -86,9 +93,6 @@ const menuItems: Record<string, string> = {
   "open linkedin": "Opens my LinkedIn in a new tab, for the version of me with a job title.",
   "open leetcode": "Opens my LeetCode profile in a new tab, where the algorithm practice lives.",
   quit: "Quit is disabled. There's no leaving. Closing the tab works, but let's not.",
-  "copy email": "Copies my email address to your clipboard. No email app required.",
-  copied: "Done. My email address is on your clipboard.",
-  "email me": "Opens your email app with a blank message addressed to me.",
   "night mode": "Flips the page to dark paper. Your choice is remembered next visit.",
   "sound effects":
     "Turns on tiny square-wave clicks and chirps for buttons, windows and dialogs. Off by default, out of politeness.",
@@ -410,6 +414,10 @@ const entries: Entry[] = [
   },
 
   { match: 'footer a[href^="mailto:"]', text: "My email address, spelled out for the copy-and-paste crowd." },
+  {
+    match: 'footer a[href$="/DevPortfolio"]',
+    text: "The design credit. This site's code is open source under MIT with attribution, so anyone who builds on it keeps this line. Opens the repo.",
+  },
   { match: "footer a[aria-label]", text: byLabel(socials, (label) => `${label}. Opens in a new tab.`) },
   {
     match: 'footer a[href="#top"]',
@@ -485,18 +493,72 @@ const BalloonHelp = () => {
     const top = Math.max(rect.top, 0);
     const bottom = Math.min(rect.bottom, vh);
     const anchor = current.point ? clamp(current.point.x, left, right) : (left + right) / 2;
+    const anchorY =
+      current.point && bottom - top > 48 ? clamp(current.point.y, top + 12, bottom - 12) : (top + bottom) / 2;
     const w = box.offsetWidth;
     const h = box.offsetHeight;
-    const below = bottom + h + 20 <= vh || top - h - 20 < 0;
-    const x = clamp(anchor < vw / 2 ? anchor - 24 : anchor - w + 24, 8, Math.max(8, vw - w - 8));
-    const y = clamp(below ? bottom + 12 : top - h - 12, 8, Math.max(8, vh - h - 8));
+    const hx = clamp(anchor < vw / 2 ? anchor - 24 : anchor - w + 24, 8, Math.max(8, vw - w - 8));
+    const flipped = clamp(anchor < vw / 2 ? anchor - w + 24 : anchor - 24, 8, Math.max(8, vw - w - 8));
+    const sy = clamp(anchorY - 22, 8, Math.max(8, vh - h - 8));
+
+    const menus = document.querySelector("dialog[open]")
+      ? []
+      : Array.from(document.querySelectorAll('header [role="menubar"] [role="menu"]'), (el) => {
+          const { left: l, top: t, right: r, bottom: b } = el.getBoundingClientRect();
+          return { left: l - 4, top: t - 4, right: r + 8, bottom: b + 8 };
+        }).filter((menu) => menu.right - menu.left > 20);
+    const overlaps = (option: Option, block: { left: number; top: number; right: number; bottom: number }) =>
+      option.x < block.right && option.x + w > block.left && option.y < block.bottom && option.y + h > block.top;
+    const inView = (option: Option) => option.fits && option.x >= 8 && option.x + w <= vw - 8;
+    const avoidsMenus = (option: Option) => inView(option) && !menus.some((menu) => overlaps(option, menu));
+    const beside = (edgeLeft: number, edgeRight: number, y = sy, detached = false): Option[] => [
+      { side: "right", x: edgeRight + 12, y, fits: edgeRight + w + 20 <= vw, detached },
+      { side: "left", x: edgeLeft - w - 12, y, fits: edgeLeft - w - 20 >= 0, detached },
+    ];
+    const below: Option = { side: "below", x: hx, y: bottom + 12, fits: bottom + h + 20 <= vh };
+    const above: Option = { side: "above", x: hx, y: top - h - 12, fits: top - h - 20 >= 0 };
+    const options: Option[] = [
+      below,
+      { ...below, x: flipped },
+      above,
+      { ...above, x: flipped },
+      ...beside(left, right),
+      ...menus.flatMap((menu) => [
+        { ...below, x: menu.right + 4 },
+        { ...below, x: menu.left - w - 4 },
+        { ...above, x: menu.right + 4 },
+        { ...above, x: menu.left - w - 4 },
+        ...beside(menu.left + 4, menu.right - 4, clamp(menu.top + 4, sy, Math.max(sy, vh - h - 8)), true),
+      ]),
+    ];
+    const pick =
+      options.find((option) => avoidsMenus(option) && !overlaps(option, { left, top, right, bottom })) ??
+      options.find(avoidsMenus) ??
+      (below.fits || !above.fits ? below : above);
+    const x = clamp(pick.x, 8, Math.max(8, vw - w - 8));
+    const y = clamp(pick.y, 8, Math.max(8, vh - h - 8));
 
     box.style.left = `${Math.round(x)}px`;
     box.style.top = `${Math.round(y)}px`;
-    tail.style.left = `${Math.round(clamp(anchor - x - 9, 10, Math.max(10, w - 28)))}px`;
-    tail.style.top = below ? "-9px" : "auto";
-    tail.style.bottom = below ? "auto" : "-9px";
-    tail.style.transform = below ? "" : "scaleY(-1)";
+    if (pick.side === "below" || pick.side === "above") {
+      const below = pick.side === "below";
+      const offset = clamp(anchor - x - 9, 10, Math.max(10, w - 28));
+      const tip = x + 2 + offset + 9;
+      tail.style.visibility = tip < left - 4 || tip > right + 4 ? "hidden" : "";
+      tail.style.left = `${Math.round(offset)}px`;
+      tail.style.right = "auto";
+      tail.style.top = below ? "-9px" : "auto";
+      tail.style.bottom = below ? "auto" : "-9px";
+      tail.style.transform = below ? "" : "scaleY(-1)";
+    } else {
+      const onLeft = pick.side === "right";
+      tail.style.visibility = pick.detached ? "hidden" : "";
+      tail.style.top = `${Math.round(clamp(anchorY - y - 7.5, 10, Math.max(10, h - 26)))}px`;
+      tail.style.bottom = "auto";
+      tail.style.left = onLeft ? "-13px" : "auto";
+      tail.style.right = onLeft ? "auto" : "-13px";
+      tail.style.transform = onLeft ? "rotate(-90deg)" : "rotate(90deg)";
+    }
   }, [show]);
 
   useEffect(() => {
@@ -532,6 +594,7 @@ const BalloonHelp = () => {
     let target: Element | null = null;
     let point: Point = null;
     let frame = 0;
+    let placing = 0;
     let timer = 0;
 
     const asElement = (value: EventTarget | null) => (value instanceof Element ? value : null);
@@ -610,13 +673,17 @@ const BalloonHelp = () => {
       if (event.key === "Escape") show(null);
     };
 
-    const onScroll = () => {
-      if (frame || !balloonRef.current) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
+    const reflow = () => {
+      if (placing || !balloonRef.current) return;
+      placing = window.requestAnimationFrame(() => {
+        placing = 0;
         place();
       });
     };
+
+    const header = document.querySelector("header");
+    const observer = new MutationObserver(reflow);
+    if (header) observer.observe(header, { childList: true, subtree: true });
 
     document.addEventListener("pointerover", onOver, true);
     document.addEventListener("pointermove", onMove, { capture: true, passive: true });
@@ -626,8 +693,8 @@ const BalloonHelp = () => {
     document.addEventListener("focusin", onFocusIn, true);
     document.addEventListener("focusout", onFocusOut, true);
     document.addEventListener("keydown", onKey, true);
-    window.addEventListener("scroll", onScroll, { capture: true, passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("scroll", reflow, { capture: true, passive: true });
+    window.addEventListener("resize", reflow);
 
     return () => {
       document.removeEventListener("pointerover", onOver, true);
@@ -638,9 +705,11 @@ const BalloonHelp = () => {
       document.removeEventListener("focusin", onFocusIn, true);
       document.removeEventListener("focusout", onFocusOut, true);
       document.removeEventListener("keydown", onKey, true);
-      window.removeEventListener("scroll", onScroll, true);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("scroll", reflow, true);
+      window.removeEventListener("resize", reflow);
+      observer.disconnect();
       window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(placing);
       window.clearTimeout(timer);
       balloonRef.current = null;
       setBalloon(null);

@@ -11,13 +11,6 @@ type RepoResponse = {
   size: number;
 };
 
-type EventResponse = {
-  type: string;
-  created_at: string;
-  repo: { name: string };
-  payload?: { head?: string };
-};
-
 type CommitResponse = { commit: { message: string } };
 
 const headers = { Accept: "application/vnd.github+json" };
@@ -71,49 +64,26 @@ export const fetchLatestPush = async (user: string): Promise<Push | null> => {
     const cached = sessionStorage.getItem(pushKey(user));
     if (cached) {
       const { at, push } = JSON.parse(cached) as { at: number; push: Push };
-      if (Date.now() - at < 600_000) return push;
+      if (Date.now() - at < 120_000) return push;
     }
   } catch {}
 
-  const firstLine = (message: string) => message.split("\n")[0].slice(0, 90);
-
-  let push: Push | null = null;
-  const events = await getJson<EventResponse[]>(
-    `https://api.github.com/users/${user}/events/public?per_page=30`,
+  const repos = await getJson<RepoResponse[]>(
+    `https://api.github.com/users/${user}/repos?sort=pushed&per_page=1`,
   );
-  const event = events?.find((item) => item.type === "PushEvent");
+  const repo = repos?.[0];
+  if (!repo) return null;
 
-  if (event) {
-    const head = event.payload?.head;
-    const commit = head
-      ? await getJson<CommitResponse>(`https://api.github.com/repos/${event.repo.name}/commits/${head}`)
-      : null;
-    push = {
-      repo: event.repo.name.split("/")[1],
-      message: commit ? firstLine(commit.commit.message) : "",
-      at: event.created_at,
-      url: `https://github.com/${event.repo.name}`,
-    };
-  } else {
-    const repos = await getJson<RepoResponse[]>(
-      `https://api.github.com/users/${user}/repos?sort=pushed&per_page=1`,
-    );
-    const repo = repos?.[0];
-    if (repo) {
-      const commits = await getJson<CommitResponse[]>(`${repo.url}/commits?per_page=1`);
-      push = {
-        repo: repo.name,
-        message: commits?.[0] ? firstLine(commits[0].commit.message) : "",
-        at: repo.pushed_at,
-        url: repo.html_url,
-      };
-    }
-  }
+  const commits = await getJson<CommitResponse[]>(`${repo.url}/commits?per_page=1`);
+  const push: Push = {
+    repo: repo.name,
+    message: commits?.[0] ? commits[0].commit.message.split("\n")[0].slice(0, 90) : "",
+    at: repo.pushed_at,
+    url: repo.html_url,
+  };
 
-  if (push) {
-    try {
-      sessionStorage.setItem(pushKey(user), JSON.stringify({ at: Date.now(), push }));
-    } catch {}
-  }
+  try {
+    sessionStorage.setItem(pushKey(user), JSON.stringify({ at: Date.now(), push }));
+  } catch {}
   return push;
 };

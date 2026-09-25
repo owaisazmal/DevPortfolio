@@ -6,6 +6,8 @@ import { contactEmail, socialMedia } from "@/data";
 
 import { SectionHeading } from "./ui/SectionHeading";
 
+const designCredit = "https://github.com/owaisazmal/DevPortfolio";
+
 const socialIcons: Record<string, React.ReactNode> = {
   GitHub: <FaGithub aria-hidden />,
   LinkedIn: <FaLinkedinIn aria-hidden />,
@@ -73,8 +75,19 @@ const Footer = () => (
       </div>
 
       <div className="mt-24 flex flex-col-reverse gap-6 border-t border-ink-soft pt-8 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-mono text-xs uppercase tracking-wider text-fog">
-          &copy; {new Date().getFullYear()} Owais Khan
+        <p className="flex flex-col items-start gap-2 font-mono text-xs uppercase tracking-wider text-fog sm:flex-row sm:items-center sm:gap-3">
+          <span>&copy; {new Date().getFullYear()} Owais Khan</span>
+          <span aria-hidden className="hidden text-steel-light sm:inline">
+            &middot;
+          </span>
+          <a
+            href={designCredit}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 underline decoration-steel underline-offset-4 hover:text-paper"
+          >
+            Design by Owais Khan <FiArrowUpRight aria-hidden />
+          </a>
         </p>
 
         <div className="flex items-center gap-3">

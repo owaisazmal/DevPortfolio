@@ -108,7 +108,7 @@ const RecentProjects = () => {
               onClick={() => setKind(option)}
               className={cn(
                 "border-2 border-ink px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors",
-                kind === option ? "bg-ink text-paper shadow-retro-sm" : "bg-paper hover:bg-steel-wash",
+                kind === option ? "bg-graphite text-paper shadow-retro-sm" : "bg-paper hover:bg-steel-wash",
               )}
             >
               {option}

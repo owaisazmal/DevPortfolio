@@ -121,7 +121,7 @@ const PhoneMock = () => {
 
   return (
     <div role="group" aria-label="Phone preview" className="relative mx-auto w-full max-w-[290px] sm:max-w-[320px]">
-      <div className="rounded-[2.9rem] border-2 border-ink bg-ink p-2.5 shadow-retro-lg">
+      <div className="rounded-[2.9rem] border-2 border-ink bg-graphite p-2.5 shadow-retro-lg">
         <div
           onClick={() => goTo((page + 1) % pages.length)}
           className="relative aspect-[9/19] overflow-hidden rounded-[2.3rem] bg-paper bg-[radial-gradient(rgb(var(--ink)_/_0.12)_1px,transparent_1px)] bg-[length:14px_14px]"
@@ -309,7 +309,7 @@ const PhoneMock = () => {
 
       <span
         aria-hidden
-        className="absolute -left-4 bottom-32 -rotate-6 border-2 border-ink bg-steel-deep px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-paper shadow-retro-sm sm:-left-10"
+        className="absolute -bottom-3 -right-3 -rotate-6 border-2 border-ink bg-steel-deep px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-paper shadow-retro-sm sm:-right-8"
       >
         iOS + Android
       </span>
