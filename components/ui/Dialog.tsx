@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef } from "react";
 
 import { cn } from "@/utils/cn";
+import { play } from "@/utils/sound";
 import { Box, centerBox, zoomRects } from "@/utils/zoomRects";
 
 type DialogProps = {
@@ -25,6 +26,7 @@ export const Dialog = ({ open, onClose, title, from, className, children }: Dial
     if (!dialog) return;
 
     if (open && !dialog.open) {
+      play("open");
       dialog.showModal();
       document.documentElement.style.overflow = "hidden";
       const to = dialog.getBoundingClientRect();
@@ -45,6 +47,7 @@ export const Dialog = ({ open, onClose, title, from, className, children }: Dial
     const dialog = ref.current;
     if (!dialog) return;
     const handleClose = () => {
+      play("close");
       document.documentElement.style.overflow = "";
       onClose();
     };
@@ -72,7 +75,7 @@ export const Dialog = ({ open, onClose, title, from, className, children }: Dial
           <span aria-hidden className="titlebar-stripes h-2.5 min-w-3 flex-1" />
           <h2
             id={titleId}
-            className="max-w-[70%] truncate font-pixel text-[14px] leading-none"
+            className="max-w-[70%] truncate font-mono text-[11px] font-semibold uppercase tracking-[0.15em]"
           >
             {title}
           </h2>

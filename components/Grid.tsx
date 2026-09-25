@@ -1,12 +1,13 @@
-import { FiArrowUpRight } from "react-icons/fi";
-
 import { aboutIntro, offers } from "@/data";
 
 import BetaSeats from "./BetaSeats";
 import ContactAlert from "./ContactAlert";
 import CurrentlyWindow from "./CurrentlyWindow";
+import OfferCta from "./OfferCta";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Window } from "./ui/Window";
+
+const offerDialogs: Record<number, string> = { 1: "pitch", 2: "beta" };
 
 const Grid = () => (
   <section id="about" className="py-20 md:py-28">
@@ -37,9 +38,9 @@ const Grid = () => (
           <p className="leading-relaxed text-ink-soft">{offer.body}</p>
           {offer.id === 2 && <BetaSeats />}
           <p className="font-mono text-[11px] leading-relaxed text-ink-soft">{offer.finePrint}</p>
-          <a href={offer.href} className="btn-retro btn-steel mt-auto self-start">
-            {offer.cta} <FiArrowUpRight aria-hidden />
-          </a>
+          <OfferCta href={offer.href} dialog={offerDialogs[offer.id]}>
+            {offer.cta}
+          </OfferCta>
         </Window>
       ))}
 

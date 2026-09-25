@@ -197,4 +197,9 @@ export const socialMedia = [
     name: "LinkedIn",
     link: "https://www.linkedin.com/in/owais-khan-266492222/",
   },
+  {
+    id: 4,
+    name: "LeetCode",
+    link: "https://leetcode.com/u/owaisazmal/",
+  },
 ];

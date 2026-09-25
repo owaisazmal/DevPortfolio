@@ -101,7 +101,7 @@ const Experience = () => {
           {workExperience.length} items, {years} years and counting
         </p>
 
-        <div className={cn(rowGrid, "border-b-2 border-ink px-3 py-1.5 font-pixel text-[14px]")}>
+        <div className={cn(rowGrid, "border-b-2 border-ink px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider")}>
           <span />
           {columns.map((column) => (
             <button

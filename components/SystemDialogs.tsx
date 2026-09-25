@@ -5,6 +5,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 import { contactEmail, moreProjects, projects, techLabel } from "@/data";
 import { cn } from "@/utils/cn";
+import { play } from "@/utils/sound";
 
 import { Dialog } from "./ui/Dialog";
 import { PixelIcon } from "./ui/PixelIcon";
@@ -93,10 +94,14 @@ const SystemDialogs = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (open === "bomb") play("error");
+  }, [open]);
+
   const restart = () => {
     close();
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-    window.dispatchEvent(new Event("portfolio:restart"));
+    window.dispatchEvent(new Event("portfolio:boot"));
   };
 
   return (

@@ -58,8 +58,11 @@
 
   body {
     @apply bg-paper font-sans text-ink antialiased;
-    background-image: radial-gradient(rgb(var(--ink) / var(--grid-alpha)) 1px, transparent 1px);
-    background-size: 22px 22px;
+    background-image: var(
+      --desktop-pattern,
+      radial-gradient(rgb(var(--ink) / var(--grid-alpha)) 1px, transparent 1px)
+    );
+    background-size: var(--desktop-size, 22px 22px);
   }
 
   body::after {
@@ -155,7 +158,7 @@
   }
 
   .menu-item {
-    @apply flex w-full items-center justify-between gap-6 whitespace-nowrap px-3 py-1.5 text-left font-pixel text-[15px] leading-tight;
+    @apply flex w-full items-center justify-between gap-6 whitespace-nowrap px-3 py-1.5 text-left font-mono text-xs uppercase tracking-wider;
   }
 
   .menu-item:not(:disabled):hover,
@@ -236,7 +239,8 @@
 
   .animate-marquee,
   .animate-blink,
-  .animate-notif {
+  .animate-notif,
+  .animate-typing {
     animation: none;
   }
 

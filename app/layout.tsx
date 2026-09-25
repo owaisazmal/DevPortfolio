@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Instrument_Serif, Pixelify_Sans } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 const serif = Instrument_Serif({
@@ -21,12 +21,7 @@ const mono = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
-const pixel = Pixelify_Sans({
-  subsets: ["latin"],
-  variable: "--font-pixel",
-});
-
-const bootScript = `(function(){var d=document.documentElement;d.setAttribute("data-js","");try{if(localStorage.getItem("theme")==="night")d.setAttribute("data-theme","night")}catch(e){}})();`;
+const bootScript = `(function(){var d=document.documentElement;d.setAttribute("data-js","");try{if(localStorage.getItem("theme")==="night")d.setAttribute("data-theme","night");var p=localStorage.getItem("pattern-css");if(p&&p.indexOf('url("data:image/svg+xml,')===0){d.style.setProperty("--desktop-pattern",p);d.style.setProperty("--desktop-size","16px 16px")}}catch(e){}})();`;
 
 export const metadata: Metadata = {
   title: "Owais Khan | Mobile Developer",
@@ -47,7 +42,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${serif.variable} ${sans.variable} ${mono.variable} ${pixel.variable}`}
+      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />

@@ -1,5 +1,6 @@
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { FiArrowUp, FiArrowUpRight } from "react-icons/fi";
+import { SiLeetcode } from "react-icons/si";
 
 import { contactEmail, socialMedia } from "@/data";
 
@@ -8,6 +9,7 @@ import { SectionHeading } from "./ui/SectionHeading";
 const socialIcons: Record<string, React.ReactNode> = {
   GitHub: <FaGithub aria-hidden />,
   LinkedIn: <FaLinkedinIn aria-hidden />,
+  LeetCode: <SiLeetcode aria-hidden />,
 };
 
 const Postmark = () => (

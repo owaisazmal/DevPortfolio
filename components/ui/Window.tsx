@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 
 import { cn } from "@/utils/cn";
+import { play } from "@/utils/sound";
 import { centerBox, reducedMotion, zoomRects } from "@/utils/zoomRects";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -37,7 +38,9 @@ export const Window = ({
   const barRef = useRef<HTMLDivElement>(null);
   const shadeRef = useRef<Shade>("open");
   const [shade, setShadeState] = useState<Shade>("open");
+  const [zoomed, setZoomed] = useState(false);
   const [generation, setGeneration] = useState(0);
+  const zoomFrom = useRef<DOMRect | null>(null);
   const bodyId = useId();
 
   const setShade = useCallback((next: Shade) => {
@@ -47,9 +50,28 @@ export const Window = ({
 
   const toggle = useCallback(() => {
     const expanded = shadeRef.current === "open" || shadeRef.current === "opening";
+    play("shade");
     if (reducedMotion()) setShade(expanded ? "closed" : "open");
     else setShade(expanded ? "closing" : "opening");
   }, [setShade]);
+
+  const toggleZoom = useCallback(() => {
+    zoomFrom.current = frameRef.current?.getBoundingClientRect() ?? null;
+    setZoomed((value) => {
+      play(value ? "close" : "open");
+      return !value;
+    });
+  }, []);
+
+  useIsoLayoutEffect(() => {
+    const frame = frameRef.current;
+    const from = zoomFrom.current;
+    if (!frame || !from) return;
+    zoomFrom.current = null;
+    const to = frame.getBoundingClientRect();
+    if (to.top < 56) frame.scrollIntoView({ block: "start" });
+    zoomRects(from, frame.getBoundingClientRect());
+  }, [zoomed]);
 
   useIsoLayoutEffect(() => {
     const frame = frameRef.current;
@@ -120,7 +142,7 @@ export const Window = ({
   const expanded = shade === "open" || shade === "opening";
 
   return (
-    <div ref={outerRef} className={cn("relative min-w-0", className)}>
+    <div ref={outerRef} className={cn("relative min-w-0", className, zoomed && "md:!col-span-full")}>
       <div
         ref={frameRef}
         className={cn(
@@ -137,9 +159,17 @@ export const Window = ({
             shade !== "closed" && "border-b-2 border-ink",
           )}
         >
-          <span aria-hidden className="h-3.5 w-3.5 shrink-0 border-2 border-ink bg-paper" />
+          <button
+            type="button"
+            onClick={toggleZoom}
+            onDoubleClick={(event) => event.stopPropagation()}
+            aria-pressed={zoomed}
+            aria-label={`${zoomed ? "Restore" : "Zoom"} ${title}`}
+            className="relative hidden h-3.5 w-3.5 shrink-0 border-2 border-ink bg-paper transition-colors after:absolute after:left-[1px] after:top-[1px] after:h-[5px] after:w-[5px] after:border-b-2 after:border-r-2 after:border-ink hover:bg-steel-wash md:block"
+          />
+          <span aria-hidden className="h-3.5 w-3.5 shrink-0 border-2 border-ink bg-paper md:hidden" />
           <span aria-hidden className="titlebar-stripes h-2.5 min-w-3 flex-1" />
-          <Title className="max-w-[75%] truncate font-pixel text-[14px] leading-none">
+          <Title className="max-w-[75%] truncate font-mono text-[11px] font-semibold uppercase tracking-[0.15em]">
             {title}
           </Title>
           <span aria-hidden className="titlebar-stripes h-2.5 min-w-3 flex-1" />

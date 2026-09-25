@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { FiArrowUpRight, FiCheck, FiCopy } from "react-icons/fi";
 
 import { contactEmail } from "@/data";
 import { cn } from "@/utils/cn";
+import { play } from "@/utils/sound";
 
 import { PixelIcon } from "./ui/PixelIcon";
 
@@ -29,9 +30,20 @@ const stopMap = [
 
 const fills = { "#": "currentColor", o: "rgb(var(--paper))" };
 
+type Topic = { label: string; subject: string; dialog?: "pitch" | "beta" };
+
+const topics: Topic[] = [
+  { label: "Freelance build", subject: "Let's build something together" },
+  { label: "Beta testing", subject: "Sign me up for the beta", dialog: "beta" },
+  { label: "App idea", subject: "I have an app idea for you", dialog: "pitch" },
+  { label: "Just saying hi", subject: "Just saying hi" },
+];
+
 const ContactAlert = ({ className }: { className?: string }) => {
   const [copied, setCopied] = useState(false);
   const [cancelled, setCancelled] = useState(false);
+  const [topic, setTopic] = useState(0);
+  const selectId = useId();
 
   useEffect(() => {
     if (!copied && !cancelled) return;
@@ -51,11 +63,26 @@ const ContactAlert = ({ className }: { className?: string }) => {
     }
   };
 
+  const current = topics[topic];
+  const href = `mailto:${contactEmail}?subject=${encodeURIComponent(current.subject)}`;
+
   const note = cancelled
     ? "No worries. The offer stays open."
     : copied
       ? "Email address copied. Talk soon."
-      : `OK opens an email to ${contactEmail}. Cancel does nothing, as usual.`;
+      : current.dialog
+        ? `OK opens the ${current.dialog === "pitch" ? "pitch pad" : "beta installer"}. Cancel does nothing, as usual.`
+        : `OK opens an email to ${contactEmail}. Cancel does nothing, as usual.`;
+
+  const ok = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!current.dialog) return;
+    event.preventDefault();
+    window.dispatchEvent(
+      new CustomEvent("portfolio:dialog", {
+        detail: { name: current.dialog, from: event.currentTarget.getBoundingClientRect() },
+      }),
+    );
+  };
 
   return (
     <div
@@ -76,6 +103,35 @@ const ContactAlert = ({ className }: { className?: string }) => {
           </div>
         </div>
 
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <label htmlFor={selectId} className="font-mono text-[11px] uppercase tracking-wider text-ink-soft">
+            Regarding:
+          </label>
+          <span className="relative inline-block">
+            <select
+              id={selectId}
+              value={topic}
+              onChange={(event) => {
+                play("click");
+                setTopic(Number(event.target.value));
+              }}
+              className="appearance-none border-2 border-ink bg-paper py-1.5 pl-3 pr-7 font-mono text-base uppercase tracking-wider text-ink shadow-retro-sm sm:text-xs"
+            >
+              {topics.map((item, index) => (
+                <option key={item.label} value={index}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-sm leading-none"
+            >
+              ▾
+            </span>
+          </span>
+        </div>
+
         <div className="mt-8 flex flex-wrap items-center justify-end gap-3 md:mt-auto md:pt-8">
           <button type="button" onClick={copy} className="btn-retro btn-paper">
             {copied ? <FiCheck aria-hidden /> : <FiCopy aria-hidden />}
@@ -84,7 +140,7 @@ const ContactAlert = ({ className }: { className?: string }) => {
           <button type="button" onClick={() => setCancelled(true)} className="btn-retro btn-paper">
             Cancel
           </button>
-          <a href={`mailto:${contactEmail}`} className="btn-retro btn-ink btn-default">
+          <a href={href} onClick={ok} className="btn-retro btn-ink btn-default">
             OK <FiArrowUpRight aria-hidden />
           </a>
         </div>

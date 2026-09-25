@@ -5,6 +5,8 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 import { contactEmail, navItems, resumeUrl, socialMedia } from "@/data";
 import { cn } from "@/utils/cn";
+import { initSound, play, setSound } from "@/utils/sound";
+import { useWeather } from "@/utils/weather";
 
 type Item =
   | { kind: "link"; label: string; href: string; external?: boolean }
@@ -54,7 +56,10 @@ const MenuItem = ({ item, onDone }: { item: Item; onDone: () => void }) => {
           target={item.external ? "_blank" : undefined}
           rel={item.external ? "noopener noreferrer" : undefined}
           className="menu-item"
-          onClick={onDone}
+          onClick={() => {
+            play("click");
+            onDone();
+          }}
         >
           {item.label}
         </a>
@@ -72,6 +77,7 @@ const MenuItem = ({ item, onDone }: { item: Item; onDone: () => void }) => {
         disabled={item.disabled}
         className="menu-item"
         onClick={() => {
+          play("click");
           item.run();
           if (!item.keepOpen) onDone();
         }}
@@ -92,6 +98,11 @@ const MenuItem = ({ item, onDone }: { item: Item; onDone: () => void }) => {
 const MenuBar = () => {
   const [time, setTime] = useState("");
   const [night, setNight] = useState(false);
+  const [sound, setSoundState] = useState(false);
+  const [balloons, setBalloons] = useState(false);
+  const actionRef = useRef<(name: string) => void>(() => {});
+  const [wide, setWide] = useState(false);
+  const { weather } = useWeather(wide);
   const [copied, setCopied] = useState(false);
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const [focusFirst, setFocusFirst] = useState(false);
@@ -99,6 +110,14 @@ const MenuBar = () => {
   const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLUListElement>(null);
   const titleRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    const update = () => setWide(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const tick = () => setTime(laTime.format(new Date()));
@@ -109,6 +128,15 @@ const MenuBar = () => {
 
   useEffect(() => {
     setNight(document.documentElement.getAttribute("data-theme") === "night");
+    setSoundState(initSound());
+    const onAction = (event: Event) => actionRef.current((event as CustomEvent<string>).detail);
+    const onBalloons = (event: Event) => setBalloons((event as CustomEvent<boolean>).detail);
+    window.addEventListener("portfolio:action", onAction);
+    window.addEventListener("portfolio:balloons:state", onBalloons);
+    return () => {
+      window.removeEventListener("portfolio:action", onAction);
+      window.removeEventListener("portfolio:balloons:state", onBalloons);
+    };
   }, []);
 
   useEffect(() => {
@@ -155,13 +183,60 @@ const MenuBar = () => {
 
   const restart = () => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-    emit("portfolio:restart");
+    emit("portfolio:boot");
+  };
+
+  const toggleSound = () => {
+    setSoundState(!sound);
+    setSound(!sound);
+  };
+
+  const toggleBalloons = () => emit("portfolio:balloons", !balloons);
+
+  const dialog = (name: string) => emit("portfolio:dialog", { name });
+
+  const visit = (url: string) => window.open(url, "_blank", "noopener,noreferrer");
+
+  const social = (name: string) => socialMedia.find((item) => item.name === name)?.link ?? resumeUrl;
+
+  actionRef.current = (name) => {
+    const actions: Record<string, () => void> = {
+      night: toggleNight,
+      sound: toggleSound,
+      balloons: toggleBalloons,
+      restart,
+      about: () => dialog("about"),
+      bomb: () => dialog("bomb"),
+      sleep: () => dialog("sleep"),
+      puzzle: () => dialog("puzzle"),
+      weather: () => dialog("weather"),
+      pattern: () => dialog("pattern"),
+      pitch: () => dialog("pitch"),
+      beta: () => dialog("beta"),
+      find: () => dialog("find"),
+      copy: copyEmail,
+      collapse: () => emit("portfolio:shade", true),
+      expand: () => emit("portfolio:shade", false),
+      resume: () => visit(resumeUrl),
+      github: () => visit(social("GitHub")),
+      linkedin: () => visit(social("LinkedIn")),
+      leetcode: () => visit(social("LeetCode")),
+      email: () => {
+        window.location.href = `mailto:${contactEmail}`;
+      },
+    };
+    actions[name]?.();
   };
 
   const menus: Menu[] = [
     {
       name: "File",
       items: [
+        { kind: "action", label: "Find…", run: () => dialog("find") },
+        { kind: "sep" },
+        { kind: "action", label: "New Pitch…", run: () => dialog("pitch") },
+        { kind: "action", label: "Install Beta…", run: () => dialog("beta") },
+        { kind: "sep" },
         { kind: "link", label: "Open Résumé", href: resumeUrl, external: true },
         ...socialMedia.map(
           (social): Item => ({
@@ -186,6 +261,9 @@ const MenuBar = () => {
       name: "View",
       items: [
         { kind: "action", label: "Night Mode", run: toggleNight, checked: night },
+        { kind: "action", label: "Sound Effects", run: toggleSound, checked: sound },
+        { kind: "sep" },
+        { kind: "action", label: "Desktop Pattern…", run: () => dialog("pattern") },
         { kind: "sep" },
         { kind: "action", label: "Collapse All Windows", run: () => emit("portfolio:shade", true) },
         { kind: "action", label: "Expand All Windows", run: () => emit("portfolio:shade", false) },
@@ -194,14 +272,22 @@ const MenuBar = () => {
     {
       name: "Special",
       items: [
-        {
-          kind: "action",
-          label: "About This Portfolio…",
-          run: () => emit("portfolio:dialog", { name: "about" }),
-        },
+        { kind: "action", label: "About This Portfolio…", run: () => dialog("about") },
+        { kind: "sep" },
+        { kind: "action", label: "Puzzle", run: () => dialog("puzzle") },
+        { kind: "action", label: "Weather", run: () => dialog("weather") },
+        { kind: "action", label: "Sleep", run: () => dialog("sleep") },
         { kind: "sep" },
         { kind: "action", label: "Restart", run: restart },
-        { kind: "action", label: "Shut Down…", run: () => emit("portfolio:dialog", { name: "bomb" }) },
+        { kind: "action", label: "Shut Down…", run: () => dialog("bomb") },
+      ],
+    },
+    {
+      name: "Help",
+      items: [
+        { kind: "action", label: "Show Balloons", run: toggleBalloons, checked: balloons },
+        { kind: "sep" },
+        { kind: "action", label: "Keyboard: press / to find", run: () => dialog("find") },
       ],
     },
   ];
@@ -256,7 +342,7 @@ const MenuBar = () => {
             height={32}
             className="h-8 w-8 shrink-0 border-2 border-ink object-cover"
           />
-          <span className="hidden font-pixel text-[15px] sm:inline md:hidden lg:inline">
+          <span className="hidden font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:inline md:hidden lg:inline">
             Owais Khan
           </span>
         </a>
@@ -284,7 +370,7 @@ const MenuBar = () => {
                     openAt(index, true);
                   }}
                   className={cn(
-                    "px-2.5 py-1 font-pixel text-[15px]",
+                    "px-2.5 py-1 font-mono text-xs uppercase tracking-wider",
                     isOpen && "bg-ink text-paper",
                   )}
                 >
@@ -308,7 +394,7 @@ const MenuBar = () => {
           })}
         </ul>
 
-        <ul className="ml-auto flex items-center gap-0.5 font-pixel text-[13px] min-[380px]:gap-1 min-[380px]:text-[14px] sm:gap-3 sm:text-[15px]">
+        <ul className="ml-auto flex items-center gap-0.5 font-mono text-[10px] uppercase tracking-wider min-[380px]:gap-1 min-[380px]:text-[11px] sm:gap-3 sm:text-xs">
           {navItems.map((item) => (
             <li key={item.link}>
               <a
@@ -321,7 +407,17 @@ const MenuBar = () => {
           ))}
         </ul>
 
-        <p className="hidden min-w-[9.5rem] text-right font-mono text-xs tabular-nums lg:block">
+        <p className="hidden min-w-[12rem] text-right font-mono text-xs tabular-nums lg:block">
+          {weather && (
+            <button
+              type="button"
+              onClick={() => dialog("weather")}
+              aria-label={`Weather: ${weather.label}, ${Math.round(weather.temp)} degrees. Open Weather Util`}
+              className="mr-3 px-1 transition-colors hover:bg-ink hover:text-paper"
+            >
+              {Math.round(weather.temp)}°
+            </button>
+          )}
           <span className="text-ink-soft">LA</span> {time}
         </p>
 
@@ -341,7 +437,10 @@ const MenuBar = () => {
       </nav>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="border-t-2 border-ink bg-paper md:hidden">
+        <div
+          id="mobile-menu"
+          className="max-h-[calc(100dvh-3.25rem)] overflow-y-auto overscroll-contain border-t-2 border-ink bg-paper md:hidden"
+        >
           <div className="mx-auto grid max-w-6xl gap-5 px-4 py-4 sm:grid-cols-2 sm:px-6">
             {menus.map((menu) => (
               <div key={menu.name}>
